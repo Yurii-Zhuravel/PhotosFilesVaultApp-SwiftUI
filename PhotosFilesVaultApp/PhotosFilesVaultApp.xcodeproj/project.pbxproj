@@ -29,9 +29,22 @@
 		FE71CE932E7AFDBE00096026 /* PhotosFilesVaultAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotosFilesVaultAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		FE71CEB32E7B062B00096026 /* Exceptions for "PhotosFilesVaultApp" folder in "PhotosFilesVaultApp" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				SystemFiles/Info.plist,
+			);
+			target = FE71CE7B2E7AFDBB00096026 /* PhotosFilesVaultApp */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		FE71CE7E2E7AFDBB00096026 /* PhotosFilesVaultApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				FE71CEB32E7B062B00096026 /* Exceptions for "PhotosFilesVaultApp" folder in "PhotosFilesVaultApp" target */,
+			);
 			path = PhotosFilesVaultApp;
 			sourceTree = "<group>";
 		};
@@ -398,7 +411,12 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PhotosFilesVaultApp/SystemFiles/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "MySafe: Lock Photo Vault";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
+				INFOPLIST_KEY_NSCameraUsageDescription = CameraUsageKey;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = PhotoUsageKey;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -444,7 +462,12 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PhotosFilesVaultApp/SystemFiles/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "MySafe: Lock Photo Vault";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
+				INFOPLIST_KEY_NSCameraUsageDescription = CameraUsageKey;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = PhotoUsageKey;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
