@@ -4,7 +4,13 @@ struct HomeTabsScreen: View {
     let services: ServicesProtocol
     
     var body: some View {
-        Text("___ HomeTabsScreen ___")
+        ZStack {
+            Color.contentBack
+                .ignoresSafeArea()
+            
+            Text("___ HomeTabsScreen ___")
+                .foregroundColor(Color.contentText)
+        }
     }
 }
 
