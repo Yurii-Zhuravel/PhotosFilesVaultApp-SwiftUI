@@ -17,7 +17,7 @@ final class Settings: SettingsProtocol {
     }
     
     // MARK: - Public methods
-    func getWasOnboardingCompleted(pageNumber: Int) -> Bool {
+    func getWasOnboardingCompleted() -> Bool {
         let value = self.storage.bool(forKey: Keys.keyWasOnboardingCompleted)
         return value
     }

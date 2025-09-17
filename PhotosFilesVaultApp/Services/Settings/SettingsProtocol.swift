@@ -6,6 +6,6 @@ protocol SettingsProtocol {
     init(storage: UserDefaults)
     
     // MARK: - Public methods
-    func getWasOnboardingCompleted(pageNumber: Int) -> Bool
+    func getWasOnboardingCompleted() -> Bool
     func saveWasOnboardingCompleted(_ newValue: Bool)
 }

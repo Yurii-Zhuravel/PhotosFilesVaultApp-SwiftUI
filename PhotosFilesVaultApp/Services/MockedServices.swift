@@ -37,7 +37,6 @@ final class MockedServices: ServicesProtocol {
     private var _settings: SettingsProtocol?
     private var _system: SystemServiceProtocol?
     
-    private var lockDatabase = NSLock()
     private var lockInAppPurchase = NSLock()
     private var lockSettings = NSLock()
     private var lockSystem = NSLock()

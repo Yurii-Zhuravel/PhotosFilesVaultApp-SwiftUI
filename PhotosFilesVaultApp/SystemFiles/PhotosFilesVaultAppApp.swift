@@ -1,10 +1,21 @@
 import SwiftUI
 
 @main
-struct PhotosFilesVaultAppApp: App {
+struct EasyFunDialApp: App {
+    let configurator = AppConfigurator()
+    let wasOnboardingCompleted: Bool
+    
+    init() {
+        self.wasOnboardingCompleted = self.configurator.services.settings.getWasOnboardingCompleted()
+    }
+    
     var body: some Scene {
         WindowGroup {
-            RootView()
+            RootScreen(wasOnboardingCompleted: wasOnboardingCompleted, services: configurator.services)
+                .task {
+                    await configurator.services.inAppPurchase.updateEntitlementsAtLaunch() // Restore purchases
+                    configurator.services.inAppPurchase.observeTransactionUpdates()
+                }
         }
     }
 }
