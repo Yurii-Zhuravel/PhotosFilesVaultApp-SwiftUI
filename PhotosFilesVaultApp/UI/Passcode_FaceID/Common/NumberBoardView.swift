@@ -48,7 +48,8 @@ enum BoardItem: String, CaseIterable {
 /// (normal and incognito) and triggers navigation when passcode entry is successful. Biometric authentication is handled via `LocalAuthentication`.
 ///
 struct NumberBoardView: View {
-    //MARK: - Variables
+    let buttonSize: CGFloat
+    let buttonSpacing: CGFloat
     
     /// View model managing passcode logic and state.
     @ObservedObject var  viewModel: PassCodeViewModel
@@ -68,12 +69,17 @@ struct NumberBoardView: View {
     }
     
     private var board: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: buttonSpacing) {
             ForEach(0..<4) { row in
-                HStack(spacing: 45) {
+                HStack(spacing: buttonSpacing) {
+                    Spacer(minLength: 0)
+                    
                     ForEach(0..<3) { column in
-                        self.buttonView(row: row, column: column)
+                        self.buttonView(row: row,
+                                        column: column,
+                                        buttonSize: buttonSize)
                     }
+                    Spacer(minLength: 0)
                 }
             }
         }
@@ -84,11 +90,26 @@ struct NumberBoardView: View {
     }
     
     //MARK: - Funcs
-    private func buttonView(row: Int, column: Int) -> some View {
+    private func buttonView(row: Int,
+                            column: Int,
+                            buttonSize: CGFloat) -> some View {
         Button(action: {
             pressButton(row: row, column: column, type: viewModel.passScreenType)
         }) {
-            Image(.passCodeButton)
+            RoundedRectangle(cornerRadius: 20)
+                .fill(
+                    LinearGradient(
+                        colors: [.passcodeButtonBack.opacity(0.6),
+                                 .passcodeButtonBack],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                )
+                .frame(
+                    width: buttonSize,
+                    height: buttonSize
+                )
+                //.frame(width: 80, height: 80)
                 .overlay {
                     if row == 3 && column == 0 {
                         biometricImage
@@ -155,7 +176,11 @@ struct NumberBoardView: View {
 #Preview {
     let testStorage = UserDefaults(suiteName: "MockServicesStorage")!
     let settings = Settings(storage: testStorage)
-    NumberBoardView(viewModel: PassCodeViewModel(type: .create,
-                                                 settings: settings),
-                    passOkGoNavigate: nil)
+    NumberBoardView(
+        buttonSize: 90,
+        buttonSpacing: 20,
+        viewModel: PassCodeViewModel(type: .create,
+                                     settings: settings),
+                    passOkGoNavigate: nil
+    )
 }

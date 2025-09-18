@@ -5,49 +5,72 @@ struct WelcomeScreen: View {
     
     @State private var navigationPath = NavigationPath()
     
-    enum Route: Hashable {
-        case passcodeSetup
-        case photoAccess
-    }
-    
     var body: some View {
         NavigationStack(path: $navigationPath) {
             ZStack {
                 Color.contentBack
                     .ignoresSafeArea()
                 
-                VStack(spacing: 10) {
+                VStack(spacing: 0) {
                     Spacer(minLength: 0)
                     
-                    Text("Welcome to MySafe: Lock Photo Vault!")
+                    Image("app_icon")
+                        .resizable()
+                        .frame(width: 120, height: 120)
+                    
+                    Spacer(minLength: 0)
+                    
+                    Text("welcome_title")
                         .foregroundColor(Color.contentText)
                         .multilineTextAlignment(.center)
-                        .font(.system(size: 20, weight: .regular))
+                        .font(.system(size: 25, weight: .bold))
+
+                    Spacer().frame(height: 20)
+                    
+                    Text("welcome_details")
+                        .foregroundColor(Color.contentText)
+                        .multilineTextAlignment(.center)
+                        .font(.system(size: 18, weight: .regular))
                     
                     Spacer(minLength: 0)
                     
+                    Spacer().frame(height: 10)
+                    
                     Button {
-                        navigationPath.append(Route.passcodeSetup)
+                        navigationPath.append(WelcomeScreenNavigationRoute.passcodeSetup)
                     } label: {
-                        Text("Start")
+                        Text("get_started")
                             .foregroundColor(Color.accentText)
                             .font(.system(size: 18, weight: .medium))
                             .frame(maxWidth: .infinity)
                             .padding(.horizontal, 16)
                             .padding(.vertical, 10)
                     }.background(
-                        Capsule()
+                        RoundedRectangle(cornerRadius: 10)
                             .foregroundColor(Color.accent)
                     )
-                    
                     Spacer().frame(height: 30)
+                    
+                    ZStack {
+                        Capsule()
+                            .foregroundColor(.onboardingProgressBack)
+                        
+                        HStack(spacing: 0) {
+                            Capsule()
+                                .foregroundColor(.onboardingProgressTint)
+                                .frame(width: 70)
+                            Spacer(minLength: 0)
+                        }
+                    }.frame(width: 210, height: 8)
+                    
+                    Spacer().frame(height: 20)
                 }.padding(.horizontal, 30)
             }.navigationTitle("")
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationBarBackButtonHidden(true)
-                .navigationDestination(for: Route.self) { route in
+                .navigationDestination(for: WelcomeScreenNavigationRoute.self) { route in
                     switch route {
-                    case .passcodeSetup: PasscodeSetupScreen()
+                    case .passcodeSetup: PasscodeSetupScreen(navigationPath: $navigationPath, services: services)
                     case .photoAccess: PhotoAccessScreen()
                     }
                 }
