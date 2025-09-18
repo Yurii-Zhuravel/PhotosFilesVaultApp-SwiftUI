@@ -54,7 +54,7 @@ struct PasscodeSetupScreen: View {
                             buttonSpacing: buttonSpacing,
                             viewModel: viewModel,
                             passOkGoNavigate: {
-                                navigationPath.append(WelcomeScreenNavigationRoute.photoAccess)
+                                navigationPath.append(OnboardingNavigationRoute.photoAccess)
                             }
                         )
                         
@@ -81,7 +81,7 @@ struct PasscodeSetupScreen: View {
                 }.navigationTitle("")
                     .navigationBarTitleDisplayMode(.inline)
                     .navigationBarBackButtonHidden(true)
-                    .navigationDestination(for: WelcomeScreenNavigationRoute.self) { route in
+                    .navigationDestination(for: OnboardingNavigationRoute.self) { route in
                         switch route {
                         case .passcodeSetup: PasscodeSetupScreen(
                             navigationPath: $navigationPath,

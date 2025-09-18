@@ -7,6 +7,7 @@ struct EasyFunDialApp: App {
     
     init() {
         self.wasOnboardingCompleted = self.configurator.services.settings.getWasOnboardingCompleted()
+        self.configurator.services.system.setupNavigationBarAppearance()
     }
     
     var body: some Scene {

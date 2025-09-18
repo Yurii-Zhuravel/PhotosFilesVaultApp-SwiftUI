@@ -3,4 +3,5 @@ import UIKit
 
 protocol SystemServiceProtocol {
     func openIOSSystemAppSettingsPage()
+    func setupNavigationBarAppearance()
 }

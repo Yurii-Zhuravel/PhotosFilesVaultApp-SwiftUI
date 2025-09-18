@@ -12,3 +12,6 @@
 "photo_access_restricted_alert_message" = "Please give this app permissions to your photo library in order to continue onboarding process. Do you want to open Settings page and change it there?";
 "cancel" = "Cancel";
 "change" = "Change";
+
+"photos" = "Photos";
+"settings" = "Settings";

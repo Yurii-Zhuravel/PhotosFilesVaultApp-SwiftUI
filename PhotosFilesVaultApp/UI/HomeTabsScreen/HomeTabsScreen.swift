@@ -3,13 +3,29 @@ import SwiftUI
 struct HomeTabsScreen: View {
     let services: ServicesProtocol
     
+    @State private var selectedTab: TabItem = .photos
+    
     var body: some View {
         ZStack {
             Color.contentBack
                 .ignoresSafeArea()
             
-            Text("___ HomeTabsScreen ___")
-                .foregroundColor(Color.contentText)
+            VStack(spacing: 0) {
+                TabView(selection: $selectedTab, content:  {
+                    switch selectedTab {
+                    case .photos:
+                        PhotoAlbumListScreen(
+                            services: services
+                        ).tag(selectedTab)
+                        
+                    case .settings:
+                        SettingsScreen(
+                            services: services
+                        ).tag(selectedTab)
+                    }
+                })
+                TabBarView(selectedTab: $selectedTab)
+            }
         }
     }
 }

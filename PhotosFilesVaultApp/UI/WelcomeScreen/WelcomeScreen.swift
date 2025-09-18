@@ -54,7 +54,7 @@ struct WelcomeScreen: View {
                         Spacer().frame(height: 20)
                         
                         Button {
-                            navigationPath.append(WelcomeScreenNavigationRoute.passcodeSetup)
+                            navigationPath.append(OnboardingNavigationRoute.passcodeSetup)
                         } label: {
                             Text("get_started")
                                 .foregroundColor(Color.accentText)
@@ -72,7 +72,7 @@ struct WelcomeScreen: View {
                 }.navigationTitle("")
                     .navigationBarTitleDisplayMode(.inline)
                     .navigationBarBackButtonHidden(true)
-                    .navigationDestination(for: WelcomeScreenNavigationRoute.self) { route in
+                    .navigationDestination(for: OnboardingNavigationRoute.self) { route in
                         switch route {
                         case .passcodeSetup: PasscodeSetupScreen(
                             navigationPath: $navigationPath,

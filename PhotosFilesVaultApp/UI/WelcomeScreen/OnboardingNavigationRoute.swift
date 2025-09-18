@@ -1,6 +1,6 @@
 import Foundation
 
-enum WelcomeScreenNavigationRoute: Hashable {
+enum OnboardingNavigationRoute: Hashable {
     case passcodeSetup
     case photoAccess
 }

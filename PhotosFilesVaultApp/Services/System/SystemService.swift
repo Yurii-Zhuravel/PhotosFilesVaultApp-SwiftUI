@@ -18,4 +18,42 @@ final class SystemService: SystemServiceProtocol {
             }
         }
     }
+    
+    func setupNavigationBarAppearance() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor(Color.navbarBack)
+        appearance.shadowColor = UIColor(Color.navbarShadow)
+        appearance.titleTextAttributes = [
+            .foregroundColor: UIColor(Color.navbarTitle)
+        ]
+        appearance.largeTitleTextAttributes = [
+            .foregroundColor: UIColor(Color.navbarTitle)
+        ]
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        UINavigationBar.appearance().compactAppearance = appearance
+        UINavigationBar.appearance().tintColor = UIColor(Color.navbarTitle) // back button & bar buttons
+        
+        // Update all existing visible navigation bars manually
+        UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .compactMap { $0.rootViewController }
+            .forEach { rootVC in
+                updateNavigationBarInViewController(rootVC, appearance: appearance)
+            }
+    }
+    
+    // MARK: - Private methods
+    private func updateNavigationBarInViewController(_ vc: UIViewController, appearance: UINavigationBarAppearance) {
+        if let nav = vc as? UINavigationController {
+            nav.navigationBar.standardAppearance = appearance
+            nav.navigationBar.scrollEdgeAppearance = appearance
+            nav.navigationBar.compactAppearance = appearance
+        }
+        vc.children.forEach { child in
+            updateNavigationBarInViewController(child, appearance: appearance)
+        }
+    }
 }

@@ -85,7 +85,7 @@ struct PhotoAccessScreen: View {
                 }.navigationTitle("")
                     .navigationBarTitleDisplayMode(.inline)
                     .navigationBarBackButtonHidden(true)
-                    .navigationDestination(for: WelcomeScreenNavigationRoute.self) { route in
+                    .navigationDestination(for: OnboardingNavigationRoute.self) { route in
                         switch route {
                         case .passcodeSetup: PasscodeSetupScreen(
                             navigationPath: $navigationPath,
