@@ -62,7 +62,7 @@ struct TabBarView: View {
                 }
             }
             //.frame(width: Config.System.windowWidth, height: 80)
-            .frame(height: 80)
+            .frame(height: 60)
             .background(.tabBarBack)
             .overlay(alignment: .top) {
                 RoundedRectangle(cornerRadius: 0)
@@ -80,7 +80,7 @@ struct TabBarView: View {
     private func tabBarButton(item: TabItem) -> some View {
         VStack(spacing: 5, content: {
             Image(systemName: item.sfImage)
-                .font(.system(size: 22, weight: .regular))
+                .font(.system(size: 20, weight: .regular))
                 .foregroundStyle(selectedTab == item ? .tabBarIconSelected : .tabBarIcon)
             
             Text(item.title)
