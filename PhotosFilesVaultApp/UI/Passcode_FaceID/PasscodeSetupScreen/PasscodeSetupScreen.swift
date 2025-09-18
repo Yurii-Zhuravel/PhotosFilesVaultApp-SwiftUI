@@ -54,34 +54,19 @@ struct PasscodeSetupScreen: View {
                         
                         Spacer(minLength: 0)
                         
-                        Spacer().frame(height: 10)
-                        
-                        Button {
-                            navigationPath.append(WelcomeScreenNavigationRoute.photoAccess)
-                        } label: {
-                            Text("confirm")
-                                .foregroundColor(Color.accentText)
-                                .font(.system(size: 18, weight: .medium))
-                                .frame(maxWidth: .infinity)
-                                .padding(.horizontal, 16)
-                                .padding(.vertical, 10)
-                        }.background(
-                            RoundedRectangle(cornerRadius: 10)
-                                .foregroundColor(Color.accent)
-                        )
                         Spacer().frame(height: 30)
                         
-                        ZStack {
-                            Capsule()
-                                .foregroundColor(.onboardingProgressBack)
-                            
-                            HStack(spacing: 0) {
-                                Capsule()
-                                    .foregroundColor(.onboardingProgressTint)
-                                    .frame(width: 140)
-                                Spacer(minLength: 0)
-                            }
-                        }.frame(width: 210, height: 8)
+                        // 2 of 3
+                        let numberOfSteps = 3
+                        let currentStep = 2
+                        let barWidth = geometry.size.width * 0.5
+                        let stepWidth = barWidth / CGFloat(numberOfSteps)
+                        
+                        OnboardingProgressBar(
+                            currentStep: currentStep,
+                            barWidth: barWidth,
+                            stepWidth: stepWidth,
+                        ).frame(width: barWidth, height: 8)
                         
                         Spacer().frame(height: 20)
                     }.padding(.horizontal, horizontalContextPadding)
@@ -90,8 +75,12 @@ struct PasscodeSetupScreen: View {
                     .navigationBarBackButtonHidden(true)
                     .navigationDestination(for: WelcomeScreenNavigationRoute.self) { route in
                         switch route {
-                        case .passcodeSetup: PasscodeSetupScreen(navigationPath: $navigationPath, services: services)
-                        case .photoAccess: PhotoAccessScreen()
+                        case .passcodeSetup: PasscodeSetupScreen(
+                            navigationPath: $navigationPath, services: services
+                        )
+                        case .photoAccess: PhotoAccessScreen(
+                            navigationPath: $navigationPath, services: services
+                        )
                         }
                     }
             }

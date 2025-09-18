@@ -1,5 +1,10 @@
 "welcome_title" = "Welcome to\nMySafe: Lock Photo Vault";
 "welcome_details" = "Lock your Private Photos & Videos,\nPasscode and FaceID protection";
 "get_started" = "Get Started";
-"confirm" = "Confirm";
+
 "passcode_setup_title" = "Enter a Passcode";
+"confirm" = "Confirm";
+
+"photo_access_title" = "Access to Photo Library";
+"photo_access_details" = "The app needs permission to your Photo Library.";
+"give_access" = "Give Access";
