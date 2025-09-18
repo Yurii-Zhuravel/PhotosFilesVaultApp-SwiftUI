@@ -3,15 +3,20 @@ import SwiftUI
 struct PasscodeSetupScreen: View {
     @Binding var navigationPath: NavigationPath
     @Binding var wasOnboardingCompleted: Bool
+    @Binding var disablePasscodeOnStartOnce: Bool
     let services: ServicesProtocol
     @StateObject var viewModel: PassCodeViewModel
     
     init(navigationPath: Binding<NavigationPath>,
          wasOnboardingCompleted: Binding<Bool>,
+         disablePasscodeOnStartOnce: Binding<Bool>,
          services: ServicesProtocol) {
         _navigationPath = navigationPath
         _wasOnboardingCompleted = wasOnboardingCompleted
+        _disablePasscodeOnStartOnce = disablePasscodeOnStartOnce
+        
         self.services = services
+        
         _viewModel = StateObject(wrappedValue: PassCodeViewModel(
                                     type: .create,
                                     settings: services.settings)
@@ -86,11 +91,13 @@ struct PasscodeSetupScreen: View {
                         case .passcodeSetup: PasscodeSetupScreen(
                             navigationPath: $navigationPath,
                             wasOnboardingCompleted: $wasOnboardingCompleted,
+                            disablePasscodeOnStartOnce: $disablePasscodeOnStartOnce,
                             services: services
                         )
                         case .photoAccess: PhotoAccessScreen(
                             navigationPath: $navigationPath,
                             wasOnboardingCompleted: $wasOnboardingCompleted,
+                            disablePasscodeOnStartOnce: $disablePasscodeOnStartOnce,
                             services: services
                         )
                         }
@@ -103,11 +110,13 @@ struct PasscodeSetupScreen: View {
 #Preview {
     @State var navigationPath = NavigationPath()
     @State var wasOnboardingCompleted = false
+    @State var disablePasscodeOnStartOnce = false
     
     let mockedServices = MockedServices.standard()
     PasscodeSetupScreen(
         navigationPath: $navigationPath,
         wasOnboardingCompleted: $wasOnboardingCompleted,
+        disablePasscodeOnStartOnce: $disablePasscodeOnStartOnce,
         services: mockedServices
     )
 }

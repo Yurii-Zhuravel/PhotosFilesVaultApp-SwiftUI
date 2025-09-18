@@ -4,6 +4,7 @@ import Photos
 struct PhotoAccessScreen: View {
     @Binding var navigationPath: NavigationPath
     @Binding var wasOnboardingCompleted: Bool
+    @Binding var disablePasscodeOnStartOnce: Bool
     let services: ServicesProtocol
     
     @State var isLoadingAccessPopover = false
@@ -90,11 +91,13 @@ struct PhotoAccessScreen: View {
                         case .passcodeSetup: PasscodeSetupScreen(
                             navigationPath: $navigationPath,
                             wasOnboardingCompleted: $wasOnboardingCompleted,
+                            disablePasscodeOnStartOnce: $disablePasscodeOnStartOnce,
                             services: services
                         )
                         case .photoAccess: PhotoAccessScreen(
                             navigationPath: $navigationPath,
                             wasOnboardingCompleted: $wasOnboardingCompleted,
+                            disablePasscodeOnStartOnce: $disablePasscodeOnStartOnce,
                             services: services
                         )
                         }
@@ -142,6 +145,7 @@ struct PhotoAccessScreen: View {
             self.isLoadingAccessPopover = false
             
             DispatchQueue.main.async {
+                self.disablePasscodeOnStartOnce = true
                 self.wasOnboardingCompleted = true
             }
         }
@@ -156,11 +160,13 @@ struct PhotoAccessScreen: View {
 #Preview {
     @State var navigationPath = NavigationPath()
     @State var wasOnboardingCompleted = false
+    @State var disablePasscodeOnStartOnce = false
     
     let mockedServices = MockedServices.standard()
     PhotoAccessScreen(
         navigationPath: $navigationPath,
         wasOnboardingCompleted: $wasOnboardingCompleted,
+        disablePasscodeOnStartOnce: $disablePasscodeOnStartOnce,
         services: mockedServices
     )
 }

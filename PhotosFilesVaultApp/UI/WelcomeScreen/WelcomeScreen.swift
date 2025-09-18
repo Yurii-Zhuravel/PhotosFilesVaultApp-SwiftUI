@@ -3,6 +3,7 @@ import SwiftUI
 struct WelcomeScreen: View {
     @Binding var navigationPath: NavigationPath
     @Binding var wasOnboardingCompleted: Bool
+    @Binding var disablePasscodeOnStartOnce: Bool
     let services: ServicesProtocol
     
     var body: some View {
@@ -77,11 +78,13 @@ struct WelcomeScreen: View {
                         case .passcodeSetup: PasscodeSetupScreen(
                             navigationPath: $navigationPath,
                             wasOnboardingCompleted: $wasOnboardingCompleted,
+                            disablePasscodeOnStartOnce: $disablePasscodeOnStartOnce,
                             services: services
                         )
                         case .photoAccess: PhotoAccessScreen(
                             navigationPath: $navigationPath,
                             wasOnboardingCompleted: $wasOnboardingCompleted,
+                            disablePasscodeOnStartOnce: $disablePasscodeOnStartOnce,
                             services: services
                         )
                         }
@@ -94,11 +97,13 @@ struct WelcomeScreen: View {
 #Preview("Light mode") {
     let services = MockedServices.standard()
     @State var wasOnboardingCompleted = false
+    @State var disablePasscodeOnStartOnce = false
     @State var navigationPath = NavigationPath()
     
     WelcomeScreen(
         navigationPath: $navigationPath,
         wasOnboardingCompleted: $wasOnboardingCompleted,
+        disablePasscodeOnStartOnce: $disablePasscodeOnStartOnce,
         services: services
     ).environment(\.colorScheme, .light)
 }
@@ -106,11 +111,13 @@ struct WelcomeScreen: View {
 #Preview("Dark mode") {
     let services = MockedServices.standard()
     @State var wasOnboardingCompleted = false
+    @State var disablePasscodeOnStartOnce = false
     @State var navigationPath = NavigationPath()
     
     WelcomeScreen(
         navigationPath: $navigationPath,
         wasOnboardingCompleted: $wasOnboardingCompleted,
+        disablePasscodeOnStartOnce: $disablePasscodeOnStartOnce,
         services: services
     ).environment(\.colorScheme, .dark)
 }

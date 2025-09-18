@@ -50,9 +50,7 @@ struct EnterPasscodeScreen: View {
                         buttonSpacing: buttonSpacing,
                         viewModel: viewModel,
                         passOkGoNavigate: {
-                            withAnimation {
-                                self.didEnteredBackgroundState = false
-                            }
+                            self.didEnteredBackgroundState = false
                         }
                     )
                     Spacer(minLength: 0)

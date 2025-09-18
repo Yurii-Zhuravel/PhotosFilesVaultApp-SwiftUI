@@ -1,10 +1,12 @@
 import SwiftUI
 
 struct HomeTabsScreen: View {
+    let disablePasscodeOnStartOnce: Bool
     let services: ServicesProtocol
     
     @State private var selectedTab: TabItem = .photos
     @State private var didEnteredBackgroundState = false
+    @State private var showedPasscodeOnStartOnce = false
     @Environment(\.scenePhase) var scenePhase
     
     var body: some View {
@@ -47,6 +49,14 @@ struct HomeTabsScreen: View {
             default:
                 break
             }
+        }.onAppear {
+            if !self.showedPasscodeOnStartOnce {
+                self.showedPasscodeOnStartOnce = true
+                
+                if !self.disablePasscodeOnStartOnce {
+                    self.didEnteredBackgroundState = true
+                }
+            }
         }
     }
 }
@@ -55,6 +65,7 @@ struct HomeTabsScreen: View {
     let services = MockedServices.standard()
     
     HomeTabsScreen(
+        disablePasscodeOnStartOnce: true,
         services: services
     ).environment(\.colorScheme, .light)
 }
@@ -63,6 +74,7 @@ struct HomeTabsScreen: View {
     let services = MockedServices.standard()
     
     HomeTabsScreen(
+        disablePasscodeOnStartOnce: true,
         services: services
     ).environment(\.colorScheme, .dark)
 }
