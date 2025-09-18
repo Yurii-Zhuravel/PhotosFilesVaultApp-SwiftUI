@@ -1,9 +1,15 @@
 import SwiftUI
+import LocalAuthentication
 
 struct EnterPasscodeScreen: View {
     @Binding var didEnteredBackgroundState: Bool
     let services: ServicesProtocol
     @StateObject var viewModel: PassCodeViewModel
+    
+    @Environment(\.scenePhase) private var scenePhase
+    
+    @State private var forceToPassCode = false
+    @State private var faceIDTriggered = false
     
     init(didEnteredBackgroundState: Binding<Bool>,
          services: ServicesProtocol) {
@@ -112,6 +118,7 @@ struct EnterPasscodeScreen: View {
                             Text("yes")) {
                                 viewModel.alertView = nil
                                 self.services.settings.saveIsBiometricPassActive(true)
+                                authenticate()
                         },
                         secondaryButton: .destructive(
                             Text("no")) {
@@ -128,6 +135,74 @@ struct EnterPasscodeScreen: View {
                         }
                     )
                 }
+            }
+        }.onChange(of: self.scenePhase) { newPhase in
+            switch newPhase {
+            case .active:
+                triggerFaceIDIfNeeded()
+            default:
+                break
+            }
+        }
+        .task {
+            if self.scenePhase == .active {
+                triggerFaceIDIfNeeded()
+            }
+        }
+    }
+    
+    private func triggerFaceIDIfNeeded() {
+        guard !self.forceToPassCode
+        else {
+            return
+        }
+        guard !self.faceIDTriggered
+        else {
+            return
+        }
+        self.faceIDTriggered = true
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            if self.services.settings.getIsBiometricPassActive() &&
+                viewModel.passScreenType == .normal {
+                authenticate()
+            }
+        }
+    }
+    
+    private func authenticate() {
+        let context = LAContext()
+        var error: NSError?
+        
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            let reason = "To securely authenticate and verify your identity for accessing sensitive features and data within the app."
+
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
+                DispatchQueue.main.async {
+                    if success {
+                        viewModel.emptyKeysData()
+                        self.didEnteredBackgroundState = false
+                        
+                    } else if let laError = authenticationError as? LAError {
+                        switch laError.code {
+                        case .userCancel, .systemCancel:
+                            // User tapped "Cancel" or system interrupted (e.g., incoming call)
+                            // Don't retry Face ID automatically here
+                            // Show manual passcode screen
+                            self.forceToPassCode = true
+                        case .biometryLockout:
+                            // Too many failed attempts, fallback to device passcode
+                            self.forceToPassCode = true
+                        default:
+                            // Other error: show alert or retry if appropriate
+                            viewModel.alertView = .biometricsNotFound
+                        }
+                    }
+                }
+            }
+        } else {
+            DispatchQueue.main.async {
+                viewModel.alertView = .biometricsNotFound
             }
         }
     }
