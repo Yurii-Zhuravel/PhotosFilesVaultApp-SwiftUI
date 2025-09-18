@@ -73,6 +73,11 @@ final class PassCodeManager {
     }
     
     /// Saves the confirm keys array as the user's main passcode in persistent storage.
+    func saveUnconfirmedPassCode() {
+        let keyToString = normalKey.joined()
+        self.settings.saveUserPasscode(keyToString)
+    }
+    
     func savePassCode() {
         let keyToString = confirmKey.joined()
         self.settings.saveUserPasscode(keyToString)

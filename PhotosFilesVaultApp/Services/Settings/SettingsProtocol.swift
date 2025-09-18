@@ -6,11 +6,11 @@ protocol SettingsProtocol {
     init(storage: UserDefaults)
     
     // MARK: - Public methods
-    func getWasOnboardingCompleted() -> Bool
-    func saveWasOnboardingCompleted(_ newValue: Bool)
-    
     func getUserPasscode() -> String?
     func saveUserPasscode(_ newValue: String)
+    
+    func getWasOnboardingCompleted() -> Bool
+    func saveWasOnboardingCompleted(_ newValue: Bool)
     
     func getIsBiometricPassActive() -> Bool
     func saveIsBiometricPassActive(_ newValue: Bool)

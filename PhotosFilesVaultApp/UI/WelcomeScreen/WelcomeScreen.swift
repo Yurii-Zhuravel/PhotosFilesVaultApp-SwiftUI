@@ -1,9 +1,9 @@
 import SwiftUI
 
 struct WelcomeScreen: View {
-    let services: ServicesProtocol
     @Binding var navigationPath: NavigationPath
     @Binding var wasOnboardingCompleted: Bool
+    let services: ServicesProtocol
     
     var body: some View {
         NavigationStack(path: $navigationPath) {
@@ -97,9 +97,9 @@ struct WelcomeScreen: View {
     @State var navigationPath = NavigationPath()
     
     WelcomeScreen(
-        services: services,
         navigationPath: $navigationPath,
-        wasOnboardingCompleted: $wasOnboardingCompleted
+        wasOnboardingCompleted: $wasOnboardingCompleted,
+        services: services
     ).environment(\.colorScheme, .light)
 }
 
@@ -109,8 +109,8 @@ struct WelcomeScreen: View {
     @State var navigationPath = NavigationPath()
     
     WelcomeScreen(
-        services: services,
         navigationPath: $navigationPath,
-        wasOnboardingCompleted: $wasOnboardingCompleted
+        wasOnboardingCompleted: $wasOnboardingCompleted,
+        services: services
     ).environment(\.colorScheme, .dark)
 }

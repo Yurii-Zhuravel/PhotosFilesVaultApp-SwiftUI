@@ -4,16 +4,18 @@ struct PasscodeSetupScreen: View {
     @Binding var navigationPath: NavigationPath
     @Binding var wasOnboardingCompleted: Bool
     let services: ServicesProtocol
-    @State var viewModel: PassCodeViewModel
+    @StateObject var viewModel: PassCodeViewModel
     
     init(navigationPath: Binding<NavigationPath>,
          wasOnboardingCompleted: Binding<Bool>,
          services: ServicesProtocol) {
-        self._navigationPath = navigationPath
-        self._wasOnboardingCompleted = wasOnboardingCompleted
+        _navigationPath = navigationPath
+        _wasOnboardingCompleted = wasOnboardingCompleted
         self.services = services
-        self.viewModel = PassCodeViewModel(type: .create,
-                                           settings: services.settings)
+        _viewModel = StateObject(wrappedValue: PassCodeViewModel(
+                                    type: .create,
+                                    settings: services.settings)
+                                 )
     }
     
     var body: some View {

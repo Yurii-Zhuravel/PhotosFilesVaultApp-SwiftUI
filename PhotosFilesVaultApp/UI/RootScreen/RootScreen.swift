@@ -9,11 +9,20 @@ struct RootScreen: View {
         if wasOnboardingCompleted {
             HomeTabsScreen(services: services)
         } else {
-            WelcomeScreen(
-                services: services,
-                navigationPath: $navigationPath,
-                wasOnboardingCompleted: $wasOnboardingCompleted
-            )
+            if let passcode = self.services.settings.getUserPasscode(),
+               !passcode.isEmpty {
+                PhotoAccessScreen(
+                    navigationPath: $navigationPath,
+                    wasOnboardingCompleted: $wasOnboardingCompleted,
+                    services: services
+                )
+            } else {
+                WelcomeScreen(
+                    navigationPath: $navigationPath,
+                    wasOnboardingCompleted: $wasOnboardingCompleted,
+                    services: services
+                )
+            }
         }
     }
 }

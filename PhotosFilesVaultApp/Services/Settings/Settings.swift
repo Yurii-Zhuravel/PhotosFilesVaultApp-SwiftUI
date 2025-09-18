@@ -4,8 +4,8 @@ import SwiftUI
 final class Settings: SettingsProtocol {
     // MARK: - Private properties
     private enum Keys {
-        static let keyWasOnboardingCompleted = "keyWasOnboardingCompleted"
         static let keyUserPasscode = "keyUserPasscode"
+        static let keyWasOnboardingCompleted = "keyWasOnboardingCompleted"
         static let keyIsBiometricPassActive = "keyIsBiometricPassActive"
     }
     private let storage: UserDefaults
@@ -19,16 +19,6 @@ final class Settings: SettingsProtocol {
     }
     
     // MARK: - Public methods
-    func getWasOnboardingCompleted() -> Bool {
-        let value = self.storage.bool(forKey: Keys.keyWasOnboardingCompleted)
-        return value
-    }
-    
-    func saveWasOnboardingCompleted(_ newValue: Bool) {
-        self.storage.set(newValue, forKey: Keys.keyWasOnboardingCompleted)
-        self.storage.synchronize()
-    }
-    
     func getUserPasscode() -> String? {
         let value = self.storage.string(forKey: Keys.keyUserPasscode)
         return value
@@ -36,6 +26,16 @@ final class Settings: SettingsProtocol {
     
     func saveUserPasscode(_ newValue: String) {
         self.storage.set(newValue, forKey: Keys.keyUserPasscode)
+        self.storage.synchronize()
+    }
+    
+    func getWasOnboardingCompleted() -> Bool {
+        let value = self.storage.bool(forKey: Keys.keyWasOnboardingCompleted)
+        return value
+    }
+    
+    func saveWasOnboardingCompleted(_ newValue: Bool) {
+        self.storage.set(newValue, forKey: Keys.keyWasOnboardingCompleted)
         self.storage.synchronize()
     }
     

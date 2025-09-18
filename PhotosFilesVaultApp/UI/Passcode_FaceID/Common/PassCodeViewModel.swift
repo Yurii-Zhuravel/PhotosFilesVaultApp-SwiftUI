@@ -112,6 +112,9 @@ final class PassCodeViewModel: ObservableObject {
             }
             
             if passcodeManager.normalKeyCount >= 4 {
+                if passScreenType == .create {
+                    passcodeManager.saveUnconfirmedPassCode()
+                }
                 completion("normal")
             }
             
