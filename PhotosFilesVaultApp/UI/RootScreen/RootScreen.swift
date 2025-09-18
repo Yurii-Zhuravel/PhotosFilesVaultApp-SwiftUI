@@ -8,7 +8,7 @@ struct RootScreen: View {
         if wasOnboardingCompleted {
             HomeTabsScreen(services: services)
         } else {
-            WelcomScreen(services: services)
+            WelcomeScreen(services: services)
         }
     }
 }

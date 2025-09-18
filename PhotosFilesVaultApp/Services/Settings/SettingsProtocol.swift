@@ -8,4 +8,10 @@ protocol SettingsProtocol {
     // MARK: - Public methods
     func getWasOnboardingCompleted() -> Bool
     func saveWasOnboardingCompleted(_ newValue: Bool)
+    
+    func getUserPasscode() -> String?
+    func saveUserPasscode(_ newValue: String)
+    
+    func getIsBiometricPassActive() -> Bool
+    func saveIsBiometricPassActive(_ newValue: Bool)
 }
