@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct EasyFunDialApp: App {
+struct PhotosFilesVaultAppApp: App {
     let configurator = AppConfigurator()
     let wasOnboardingCompleted: Bool
     

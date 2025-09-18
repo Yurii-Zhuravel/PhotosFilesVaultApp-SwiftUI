@@ -15,3 +15,25 @@
 
 "photos" = "Photos";
 "settings" = "Settings";
+"yes" = "Yes";
+"no" = "No";
+"ok" = "Ok";
+"open_settings" = "Open Settings";
+
+"invalid_passcode_alert_title" = "Incorrect Passcode";
+"invalid_passcode_alert_message" = "Please try again!";
+
+"biometrics_error_alert_title" = "Something went Wrong";
+"biometrics_error_alert_message" = "Please try again!";
+
+"biometrics_not_found_alert_title" = "Permission Denied";
+"biometrics_not_found_alert_message" = "Please press the button below to navigate to the settings page and allow access permission for Face ID/ Touch ID to proceed!";
+
+"password_updated_alert_title" = "Passcode Updated";
+"password_updated_alert_message" = "Your new passcode has been successfully updated!";
+
+"enable_biometric_alert_title" = "Request Permission";
+"enable_biometric_alert_message" = "Do you want to enable Face ID/ Touch ID to login into OneVault?";
+
+"incognito_setup_alert_title" = "Incognito Mode Setup Successfully";
+"incognito_setup_alert_message" = "Please enter the incognito passcode to navigate to the fake notes app!";

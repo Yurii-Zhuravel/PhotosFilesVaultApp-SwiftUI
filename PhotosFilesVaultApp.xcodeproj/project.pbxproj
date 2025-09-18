@@ -415,6 +415,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "MySafe: Lock Photo Vault";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = NSFaceIDUsageDescription;
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = SaveToLibraryUsageKey;
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = PhotoUsageKey;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -466,6 +467,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "MySafe: Lock Photo Vault";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = NSFaceIDUsageDescription;
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = SaveToLibraryUsageKey;
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = PhotoUsageKey;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
