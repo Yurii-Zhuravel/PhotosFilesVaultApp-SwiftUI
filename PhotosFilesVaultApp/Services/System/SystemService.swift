@@ -11,5 +11,11 @@ final class SystemService: SystemServiceProtocol {
     // MARK: - Initializers
     
     // MARK: - Public methods
-
+    func openIOSSystemAppSettingsPage() {
+        if let appSettings = URL(string: UIApplication.openSettingsURLString) {
+            if UIApplication.shared.canOpenURL(appSettings) {
+                UIApplication.shared.open(appSettings, options: [:], completionHandler: nil)
+            }
+        }
+    }
 }

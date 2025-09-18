@@ -8,3 +8,7 @@
 "photo_access_title" = "Access to Photo Library";
 "photo_access_details" = "The app needs permission to your Photo Library.";
 "give_access" = "Give Access";
+"photo_access_restricted_alert_title" = "Access denied!";
+"photo_access_restricted_alert_message" = "Please give this app permissions to your photo library in order to continue onboarding process. Do you want to open Settings page and change it there?";
+"cancel" = "Cancel";
+"change" = "Change";

@@ -1,0 +1,3 @@
+"NSPhotoLibraryUsageDescription" = "This allows the app to access your photo library.";
+"NSPhotoLibraryAddUsageDescription" = "This allows the app to save photos to your library.";
+

@@ -2,11 +2,15 @@ import SwiftUI
 
 struct PasscodeSetupScreen: View {
     @Binding var navigationPath: NavigationPath
+    @Binding var wasOnboardingCompleted: Bool
     let services: ServicesProtocol
     @State var viewModel: PassCodeViewModel
     
-    init(navigationPath: Binding<NavigationPath>, services: ServicesProtocol) {
+    init(navigationPath: Binding<NavigationPath>,
+         wasOnboardingCompleted: Binding<Bool>,
+         services: ServicesProtocol) {
         self._navigationPath = navigationPath
+        self._wasOnboardingCompleted = wasOnboardingCompleted
         self.services = services
         self.viewModel = PassCodeViewModel(type: .create,
                                            settings: services.settings)
@@ -63,12 +67,14 @@ struct PasscodeSetupScreen: View {
                         let stepWidth = barWidth / CGFloat(numberOfSteps)
                         
                         OnboardingProgressBar(
+                            numberOfSteps: numberOfSteps,
                             currentStep: currentStep,
                             barWidth: barWidth,
                             stepWidth: stepWidth,
-                        ).frame(width: barWidth, height: 8)
+                        ).frame(width: barWidth)
                         
                         Spacer().frame(height: 20)
+                        
                     }.padding(.horizontal, horizontalContextPadding)
                 }.navigationTitle("")
                     .navigationBarTitleDisplayMode(.inline)
@@ -76,10 +82,14 @@ struct PasscodeSetupScreen: View {
                     .navigationDestination(for: WelcomeScreenNavigationRoute.self) { route in
                         switch route {
                         case .passcodeSetup: PasscodeSetupScreen(
-                            navigationPath: $navigationPath, services: services
+                            navigationPath: $navigationPath,
+                            wasOnboardingCompleted: $wasOnboardingCompleted,
+                            services: services
                         )
                         case .photoAccess: PhotoAccessScreen(
-                            navigationPath: $navigationPath, services: services
+                            navigationPath: $navigationPath,
+                            wasOnboardingCompleted: $wasOnboardingCompleted,
+                            services: services
                         )
                         }
                     }
@@ -90,7 +100,12 @@ struct PasscodeSetupScreen: View {
 
 #Preview {
     @State var navigationPath = NavigationPath()
+    @State var wasOnboardingCompleted = false
+    
     let mockedServices = MockedServices.standard()
-    PasscodeSetupScreen(navigationPath: $navigationPath,
-                        services: mockedServices)
+    PasscodeSetupScreen(
+        navigationPath: $navigationPath,
+        wasOnboardingCompleted: $wasOnboardingCompleted,
+        services: mockedServices
+    )
 }

@@ -2,8 +2,8 @@ import SwiftUI
 
 struct WelcomeScreen: View {
     let services: ServicesProtocol
-    
-    @State private var navigationPath = NavigationPath()
+    @Binding var navigationPath: NavigationPath
+    @Binding var wasOnboardingCompleted: Bool
     
     var body: some View {
         NavigationStack(path: $navigationPath) {
@@ -18,6 +18,7 @@ struct WelcomeScreen: View {
                         Image("app_icon")
                             .resizable()
                             .frame(width: 120, height: 120)
+                            .shadow(radius: 10)
                         
                         Spacer(minLength: 0)
                         
@@ -37,6 +38,21 @@ struct WelcomeScreen: View {
                         
                         Spacer().frame(height: 10)
                         
+                        // 1 of 3
+                        let numberOfSteps = 3
+                        let currentStep = 1
+                        let barWidth = geometry.size.width * 0.5
+                        let stepWidth = barWidth / CGFloat(numberOfSteps)
+                        
+                        OnboardingProgressBar(
+                            numberOfSteps: numberOfSteps,
+                            currentStep: currentStep,
+                            barWidth: barWidth,
+                            stepWidth: stepWidth,
+                        ).frame(width: barWidth)
+                        
+                        Spacer().frame(height: 20)
+                        
                         Button {
                             navigationPath.append(WelcomeScreenNavigationRoute.passcodeSetup)
                         } label: {
@@ -50,20 +66,7 @@ struct WelcomeScreen: View {
                             RoundedRectangle(cornerRadius: 10)
                                 .foregroundColor(Color.accent)
                         )
-                        Spacer().frame(height: 30)
-                        
-                        // 1 of 3
-                        let numberOfSteps = 3
-                        let currentStep = 1
-                        let barWidth = geometry.size.width * 0.5
-                        let stepWidth = barWidth / CGFloat(numberOfSteps)
-                        
-                        OnboardingProgressBar(
-                            currentStep: currentStep,
-                            barWidth: barWidth,
-                            stepWidth: stepWidth,
-                        ).frame(width: barWidth, height: 8)
-                        
+
                         Spacer().frame(height: 20)
                     }.padding(.horizontal, 30)
                 }.navigationTitle("")
@@ -72,10 +75,14 @@ struct WelcomeScreen: View {
                     .navigationDestination(for: WelcomeScreenNavigationRoute.self) { route in
                         switch route {
                         case .passcodeSetup: PasscodeSetupScreen(
-                            navigationPath: $navigationPath, services: services
+                            navigationPath: $navigationPath,
+                            wasOnboardingCompleted: $wasOnboardingCompleted,
+                            services: services
                         )
                         case .photoAccess: PhotoAccessScreen(
-                            navigationPath: $navigationPath, services: services
+                            navigationPath: $navigationPath,
+                            wasOnboardingCompleted: $wasOnboardingCompleted,
+                            services: services
                         )
                         }
                     }
@@ -86,16 +93,24 @@ struct WelcomeScreen: View {
 
 #Preview("Light mode") {
     let services = MockedServices.standard()
+    @State var wasOnboardingCompleted = false
+    @State var navigationPath = NavigationPath()
     
     WelcomeScreen(
-        services: services
+        services: services,
+        navigationPath: $navigationPath,
+        wasOnboardingCompleted: $wasOnboardingCompleted
     ).environment(\.colorScheme, .light)
 }
 
 #Preview("Dark mode") {
     let services = MockedServices.standard()
+    @State var wasOnboardingCompleted = false
+    @State var navigationPath = NavigationPath()
     
     WelcomeScreen(
-        services: services
+        services: services,
+        navigationPath: $navigationPath,
+        wasOnboardingCompleted: $wasOnboardingCompleted
     ).environment(\.colorScheme, .dark)
 }
