@@ -11,11 +11,22 @@ struct PhotoAlbumListScreen: View {
                 Color.contentBack
                     .ignoresSafeArea()
                 
+                let contentPadding: CGFloat = 20
+                
                 VStack(spacing: 0) {
+                    Spacer().frame(height: contentPadding)
                     
                     // TODO: Albums!
+                    HStack {
+                        PhotoAlmubItemView(name: "My favorite photos")
+                            .frame(width: 150, height: 150)
+                        Spacer()
+                    }
+                    Spacer()
+                    
+                    Spacer().frame(height: contentPadding)
 
-                }.ignoresSafeArea()
+                }.padding(.horizontal, contentPadding)
                 
                 VStack {
                     Spacer()
@@ -50,7 +61,7 @@ struct PhotoAlbumListScreen: View {
     }
 }
 
-#Preview {
+#Preview("Light mode") {
     let services = MockedServices.standard()
     
     PhotoAlbumListScreen(
