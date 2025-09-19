@@ -11,7 +11,15 @@ struct PhotoAlbumListScreen: View {
     @State private var items: [AlbumItem] = [
         AlbumItem(id: "1", name: "My favorite photos"),
         AlbumItem(id: "2", name: "My car"),
-        AlbumItem(id: "3", name: "Family photos")
+        AlbumItem(id: "3", name: "Family photos"),
+        AlbumItem(id: "4", name: "Test 1"),
+        AlbumItem(id: "5", name: "Test 2"),
+        AlbumItem(id: "6", name: "Test 3"),
+        AlbumItem(id: "7", name: "Test 4"),
+        AlbumItem(id: "8", name: "Test 5"),
+        AlbumItem(id: "9", name: "Test 6"),
+        AlbumItem(id: "10", name: "Test 7"),
+        AlbumItem(id: "11", name: "Test 9"),
     ]
     private struct AlbumItem: Identifiable {
         let id: String
@@ -39,14 +47,16 @@ struct PhotoAlbumListScreen: View {
                                  adjustedPositiveItemSize: adjustedPositiveItemSize,
                                  itemsPadding: itemsPadding)
                         .padding(.horizontal, contentPadding)
-                        .padding(.bottom, self.bottomTabBarHeight + contentPadding)
                         .ignoresSafeArea(edges: .bottom)
+                        .bottomSafeAreaPadding(tabBarHeight:  self.bottomTabBarHeight)
                     
                     buildBottomButtonAdd(contentPadding: contentPadding)
-                        .padding(contentPadding)
-                        .padding(.bottom, self.bottomTabBarHeight + contentPadding)
+                        .padding(.horizontal, contentPadding)
                         .ignoresSafeArea(edges: .bottom)
-                }.navigationTitle("photos")
+                        .bottomSafeAreaPadding(tabBarHeight:  self.bottomTabBarHeight)
+                    
+                }.ignoresSafeArea(edges: .bottom)
+                    .navigationTitle("photos")
                     .navigationBarTitleDisplayMode(.inline)
     //                .navigationDestination(for: HomeTabsNavigationRoutes.self) { route in
     //                    switch route {
@@ -104,7 +114,6 @@ struct PhotoAlbumListScreen: View {
                                    height: adjustedPositiveItemSize)
                     }
                 }
-                .frame(maxWidth: .infinity, alignment: .top)
                 
                 Spacer().frame(height: contentPadding)
             }

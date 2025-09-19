@@ -16,10 +16,12 @@ struct SettingsScreen: View {
                     // TODO: Settings content
                     
                     Text("Settings page")
-                }.padding(.bottom, self.bottomTabBarHeight)
-                    .ignoresSafeArea(edges: .bottom)
+                }.ignoresSafeArea(edges: .bottom)
+                    .bottomSafeAreaPadding(tabBarHeight:  self.bottomTabBarHeight)
+                   
                 
-            }.navigationTitle("settings")
+            }.ignoresSafeArea(edges: .bottom)
+                .navigationTitle("settings")
                 .navigationBarTitleDisplayMode(.inline)
 //                .navigationDestination(for: HomeTabsNavigationRoutes.self) { route in
 //                    switch route {

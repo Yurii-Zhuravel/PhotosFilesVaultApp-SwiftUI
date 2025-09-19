@@ -2,6 +2,18 @@ import Foundation
 import SwiftUI
 
 extension View {
+    /// Adds bottom padding for custom tab bar + system safe area (home indicator) on iOS 15/16+
+    func bottomSafeAreaPadding(tabBarHeight: CGFloat) -> some View {
+        let bottomSafeArea: CGFloat = (UIApplication.shared
+            .connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .first { $0.isKeyWindow }?
+            .safeAreaInsets.bottom) ?? 0
+        
+        return self.padding(.bottom, tabBarHeight + bottomSafeArea)
+    }
+    
     @ViewBuilder
     func `if`<Transform: View>(_ condition: Bool, transform: (Self) -> Transform) -> some View {
         if condition { transform(self) }
