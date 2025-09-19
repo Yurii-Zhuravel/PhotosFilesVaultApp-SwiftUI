@@ -25,7 +25,7 @@ struct PhotoAlmubItemView: View {
                                     .rotationEffect(Angle(degrees: 90))
                             }
                             Spacer(minLength: 0)
-                        }
+                        }.opacity(folder.isEditable ? 1 : 0)
                         VStack(spacing: 0) {
                             Spacer(minLength: 0)
                             

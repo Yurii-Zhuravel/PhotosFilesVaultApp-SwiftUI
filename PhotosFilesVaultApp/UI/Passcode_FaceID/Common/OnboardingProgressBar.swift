@@ -10,7 +10,7 @@ struct OnboardingProgressBar: View {
         VStack(spacing: 5) {
             ZStack {
                 Capsule()
-                    .foregroundColor(.secondaryAccent)
+                    .foregroundColor(.accent)
                 
                 HStack(spacing: 0) {
                     Capsule()

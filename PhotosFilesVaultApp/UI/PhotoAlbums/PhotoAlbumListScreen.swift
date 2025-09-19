@@ -7,6 +7,8 @@ struct PhotoAlbumListScreen: View {
     @State private var navigationPath = NavigationPath()
     @State private var isShowingAddingSheet = false
     @State private var isShowingDeleteConfirmationAlert = false
+    @State private var isShowingEditFolderAlert = false
+    @State private var editedFolderName = ""
     @State private var folderToDelete: FolderModel?
     
     @StateObject private var viewModel = VaultViewModel()
@@ -39,6 +41,10 @@ struct PhotoAlbumListScreen: View {
                         .padding(.horizontal, contentPadding)
                         .ignoresSafeArea(edges: .bottom)
                         .bottomSafeAreaPadding(tabBarHeight:  self.bottomTabBarHeight)
+                    
+                    if self.isShowingEditFolderAlert {
+                        buildEditFolderAlert()
+                    }
                     
                 }.ignoresSafeArea(edges: .bottom)
                     .navigationTitle("photos")
@@ -79,7 +85,7 @@ struct PhotoAlbumListScreen: View {
                     .alert("delete_confirmation_alert_title",
                            isPresented: $isShowingDeleteConfirmationAlert,
                            actions: {
-                        Button {
+                        Button(role: .cancel) {
                             self.folderToDelete = nil
                         } label: {
                             Text("no")
@@ -150,7 +156,8 @@ struct PhotoAlbumListScreen: View {
                         .contextMenu {
                             if folder.isEditable {
                                 Button {
-                                    // TODO:
+                                    self.editedFolderName = folder.name
+                                    self.isShowingEditFolderAlert = true
                                 } label: {
                                     Label("edit_name", systemImage: "pencil")
                                 }
@@ -202,6 +209,20 @@ struct PhotoAlbumListScreen: View {
             }
             Spacer().frame(height: contentPadding)
         }
+    }
+    
+    private func buildEditFolderAlert() -> some View {
+        TextFieldAlert(
+            isPresented: $isShowingEditFolderAlert,
+            firstText: $editedFolderName,
+            title: NSLocalizedString("edit_folder_alert_title",
+                                     comment: ""),
+            message:  NSLocalizedString("edit_folder_alert_message",
+                                        comment: ""),
+            onSave: {
+                self.editedFolderName = ""
+            }
+        )
     }
 }
 
