@@ -42,3 +42,6 @@
 "add_new_folder" = "Add New Folder";
 "edit_name" = "Edit Name";
 "delete" = "Delete";
+
+"delete_confirmation_alert_title" = "Are you sure you want to delete this folder?";
+"delete_confirmation_alert_message" = "All photos and videos inside will be deleted permanently";

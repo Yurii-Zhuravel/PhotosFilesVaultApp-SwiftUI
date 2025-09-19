@@ -6,6 +6,8 @@ struct PhotoAlbumListScreen: View {
     
     @State private var navigationPath = NavigationPath()
     @State private var isShowingAddingSheet = false
+    @State private var isShowingDeleteConfirmationAlert = false
+    @State private var folderToDelete: FolderModel?
     
     @StateObject private var viewModel = VaultViewModel()
 
@@ -74,6 +76,25 @@ struct PhotoAlbumListScreen: View {
                     }.onAppear {
                         viewModel.fetchSubfolders()
                     }
+                    .alert("delete_confirmation_alert_title",
+                           isPresented: $isShowingDeleteConfirmationAlert,
+                           actions: {
+                        Button {
+                            self.folderToDelete = nil
+                        } label: {
+                            Text("no")
+                        }
+                        Button(role: .destructive) {
+                            if let folderToDelete {
+                                viewModel.deleteFolder(folderToDelete)
+                                self.folderToDelete = nil
+                            }
+                        } label: {
+                            Text("yes")
+                        }
+                    }, message: {
+                        Text("delete_confirmation_alert_message")
+                    })
             }
         }
     }
@@ -134,7 +155,8 @@ struct PhotoAlbumListScreen: View {
                                     Label("edit_name", systemImage: "pencil")
                                 }
                                 Button(role: .destructive) {
-                                    viewModel.deleteFolder(folder)
+                                    self.folderToDelete = folder
+                                    isShowingDeleteConfirmationAlert = true
                                 } label: {
                                     Label("delete", systemImage: "trash")
                                 }
