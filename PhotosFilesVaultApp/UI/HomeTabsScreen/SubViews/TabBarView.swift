@@ -44,6 +44,7 @@ enum TabItem: CaseIterable {
 struct TabBarView: View {
     //MARK: Variables
     @Binding var selectedTab: TabItem
+    let bottomTabBarHeight: CGFloat
     
     let impact = UIImpactFeedbackGenerator(style: .light)
     
@@ -61,8 +62,7 @@ struct TabBarView: View {
                     Spacer()
                 }
             }
-            //.frame(width: Config.System.windowWidth, height: 80)
-            .frame(height: 60)
+            .frame(height: bottomTabBarHeight)
             .background(.tabBarBack)
             .overlay(alignment: .top) {
                 RoundedRectangle(cornerRadius: 0)
@@ -99,5 +99,7 @@ struct TabBarView: View {
 }
 
 #Preview {
-    TabBarView(selectedTab: .constant(TabItem.photos))
+    TabBarView(
+        selectedTab: .constant(TabItem.photos),
+        bottomTabBarHeight: 60)
 }

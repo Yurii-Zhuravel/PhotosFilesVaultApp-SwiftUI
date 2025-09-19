@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SettingsScreen: View {
     let services: ServicesProtocol
+    let bottomTabBarHeight: CGFloat
     @State private var navigationPath = NavigationPath()
     
     var body: some View {
@@ -15,7 +16,8 @@ struct SettingsScreen: View {
                     // TODO: Settings content
                     
                     Text("Settings page")
-                }.ignoresSafeArea()
+                }.padding(.bottom, self.bottomTabBarHeight)
+                    .ignoresSafeArea(edges: .bottom)
                 
             }.navigationTitle("settings")
                 .navigationBarTitleDisplayMode(.inline)
@@ -35,6 +37,7 @@ struct SettingsScreen: View {
     let services = MockedServices.standard()
     
     SettingsScreen(
-        services: services
+        services: services,
+        bottomTabBarHeight: 60
     )
 }

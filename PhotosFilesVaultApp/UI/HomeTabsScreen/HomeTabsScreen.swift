@@ -20,24 +20,30 @@ struct HomeTabsScreen: View {
                     services: services
                 )
             } else {
-                VStack(spacing: 0) {
-                    TabView(selection: $selectedTab, content:  {
-                        switch selectedTab {
-                        case .photos:
-                            PhotoAlbumListScreen(
-                                services: services
-                            ).tag(selectedTab)
-                            
-                        case .settings:
-                            SettingsScreen(
-                                services: services
-                            ).tag(selectedTab)
-                        }
-                    })
-                    TabBarView(selectedTab: $selectedTab)
+                let bottomTabBarHeight: CGFloat = 60.0
+                
+                TabView(selection: $selectedTab) {
+                    PhotoAlbumListScreen(
+                        services: services,
+                        bottomTabBarHeight: bottomTabBarHeight
+                    )
+                        .tag(TabItem.photos)
+                    
+                    SettingsScreen(
+                        services: services,
+                        bottomTabBarHeight: bottomTabBarHeight
+                    )
+                        .tag(TabItem.settings)
+                }.safeAreaInset(edge: .bottom) {
+                    TabBarView(
+                        selectedTab: $selectedTab,
+                        bottomTabBarHeight: bottomTabBarHeight
+                    )
+                        .background(.ultraThinMaterial) // optional styling
                 }
             }
-        }.onChange(of: scenePhase) { newPhase in
+        }
+        .onChange(of: scenePhase) { newPhase in
             print("PhotosFilesVaultAppApp: scenePhase changed = \(newPhase)")
             
             switch newPhase {
