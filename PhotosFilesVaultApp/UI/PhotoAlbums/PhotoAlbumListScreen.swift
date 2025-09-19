@@ -59,8 +59,13 @@ struct PhotoAlbumListScreen: View {
                                 print("!!! AAA onImportPhotoVideoCallback")
                                 self.isShowingAddingSheet = false
                             }, onAddNewFolderCallback: {
-                                // TODO:
-                                print("!!! AAA onAddNewFolderCallback")
+                                let newFolderName = "Test Folder"
+                                guard !newFolderName.isEmpty
+                                else {
+                                    self.isShowingAddingSheet = false
+                                    return
+                                }
+                                viewModel.craeteNewFolder(name: newFolderName)
                                 self.isShowingAddingSheet = false
                             }
                         )
@@ -121,8 +126,30 @@ struct PhotoAlbumListScreen: View {
                             }
                         ).frame(width: adjustedPositiveItemSize,
                                 height: adjustedPositiveItemSize)
+                        .contextMenu {
+                            if folder.isEditable {
+                                Button {
+                                    // TODO:
+                                } label: {
+                                    Label("edit_name", systemImage: "pencil")
+                                }
+                                Button(role: .destructive) {
+                                    viewModel.deleteFolder(folder)
+                                } label: {
+                                    Label("delete", systemImage: "trash")
+                                }
+                            }
+                        } preview: {
+                            // 👇 This defines what appears during the "lift-off" animation
+                            PhotoAlmubItemView(
+                                folder: folder,
+                                onAlbumPressed: { _ in }
+                            ).frame(width: adjustedPositiveItemSize,
+                                    height: adjustedPositiveItemSize)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                        }
                     }
-                }
+                }.id(viewModel.refreshTrigger)
                 
                 Spacer().frame(height: contentPadding)
             }

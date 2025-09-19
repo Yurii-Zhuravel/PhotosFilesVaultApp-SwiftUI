@@ -43,6 +43,8 @@ struct FolderModel: Codable {
             return nil
         }
     }
+    
+    var isEditable: Bool
 }
 
 // MARK: - Hashable Conformance
@@ -66,7 +68,8 @@ extension FolderModel {
         items: preivewItems,
         timeStamp: Date(),
         filesCount: 2,
-        foldersCount: 2
+        foldersCount: 2,
+        isEditable: true
     )
     
     /// A preview list of folder items including files and subfolders.
@@ -91,7 +94,8 @@ extension FolderModel {
             items: [],
             timeStamp: Date(),
             filesCount: 0,
-            foldersCount: 0
+            foldersCount: 0,
+            isEditable: true
         )),
         .folder(FolderModel(
             path: "",
@@ -99,7 +103,8 @@ extension FolderModel {
             items: [],
             timeStamp: Date(),
             filesCount: 0,
-            foldersCount: 0
+            foldersCount: 0,
+            isEditable: true
         )),
     ]
 }

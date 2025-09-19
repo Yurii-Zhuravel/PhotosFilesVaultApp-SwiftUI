@@ -83,13 +83,13 @@ final class FileManagerService {
                 return
             }
             
-            let folderName = folder.name.filter { !$0.isWhitespace }
+            let folderName = folder.name // ! Do not remove white spaces! Can't delete it later!
             let newFolderUrl = holderFolderUrl
                 .appendingPathComponent(folderName)
             
             do {
                 try fileManager.createDirectory(
-                    atPath: newFolderUrl.path(),
+                    at: newFolderUrl,
                     withIntermediateDirectories: true,
                     attributes: nil
                 )
@@ -514,6 +514,41 @@ final class FileManagerService {
         }
     }
     
+    @discardableResult
+    func deleteFolder(_ folder: FolderModel) async -> Bool {
+        await withCheckedContinuation { continuation in
+            var folder = folder
+            
+            guard let url = filesDocumentsURL?
+                .appendingPathComponent(folder.path)
+                .appendingPathComponent(folder.name),
+                  fileManager.fileExists(atPath: url.path(percentEncoded: false)) else {
+                print("Folder deletion failed: File couldn't be found => \(folder.name)")
+                continuation.resume(returning: false)
+                return
+            }
+            do {
+                try fileManager.removeItem(at: url)
+            
+                rootPhotoFolder.filesCount -= folder.filesCount
+                rootPhotoFolder.items.removeAll { item in
+                    switch item {
+                    case .file(_):
+                        return false
+                    case  .folder(let inputFolder):
+                        return inputFolder.name == folder.name
+                    }
+                }
+                removeDataFromLog(for: rootPhotoFolder, folderToRemove: folder.name)
+                
+                continuation.resume(returning: true)
+            } catch {
+                print("Folder deletion failed: \(error)")
+                continuation.resume(returning: false)
+            }
+        }
+    }
+    
     // MARK: - File Deletion
     
     /// Deletes multiple files from the secure files vault and updates folder metadata.
@@ -655,7 +690,7 @@ final class FileManagerService {
     /// - Returns: A `FolderModel` representing the created root folder.
     ///
     private func createRootFolder(for folderName: String, filesDocumentsURL: URL) -> FolderModel {
-        let defailtFolderName = "Main folder"
+        let defailtFolderName = "Main Folder"
         do {
             let rootDirectoryUrl = filesDocumentsURL.appendingPathComponent(folderName.filter { !$0.isWhitespace })
             try fileManager.createDirectory(atPath: rootDirectoryUrl.path(), withIntermediateDirectories: true, attributes: nil)
@@ -672,7 +707,8 @@ final class FileManagerService {
             items: [],
             timeStamp: Date(),
             filesCount: 0,
-            foldersCount: 0
+            foldersCount: 0,
+            isEditable: false
         )
         
         let rootFolderModel = FolderModel(
@@ -681,7 +717,8 @@ final class FileManagerService {
             items: [.folder(defaultFolderModel)],
             timeStamp: Date(),
             filesCount: 0,
-            foldersCount: 1
+            foldersCount: 1,
+            isEditable: false
         )
         
         writeToDataLog(for: rootFolderModel)
@@ -723,6 +760,51 @@ final class FileManagerService {
         }
         catch {
             print("Failed to write JSON data: \(error.localizedDescription)")
+        }
+    }
+    
+    private func removeDataFromLog(for folder: FolderModel, folderToRemove: String) {
+        guard let holderFolderUrl = getFolderUrl(folder) else {
+            print("\(folder.name) folder url couldn't be found")
+            return
+        }
+        
+        let logDataFileUrl = holderFolderUrl.appendingPathComponent("\(dataLogKeyName).json")
+        
+        removeFolderFromLog(folderName: folderToRemove, logUrl: logDataFileUrl)
+    }
+    
+    func removeFolder(named folderName: String, from folder: inout FolderModel) {
+        folder.items.removeAll { item in
+            switch item {
+            case .folder(let dict):
+                // Remove if any folder matches name
+                if dict.name == folderName {
+                    return true
+                }
+                return false
+            case .file(_):
+                return false
+            }
+        }
+    }
+
+    // MARK: - Remove folder from JSON log on disk
+    func removeFolderFromLog(folderName: String, logUrl: URL) {
+        guard let data = try? Data(contentsOf: logUrl),
+              var root = try? JSONDecoder().decode(FolderModel.self, from: data) else {
+            print("Failed to load or decode JSON log")
+            return
+        }
+
+        removeFolder(named: folderName, from: &root)
+        
+        do {
+            let encoded = try JSONEncoder().encode(root)
+            try encoded.write(to: logUrl)
+            print("Removed '\(folderName)' from log")
+        } catch {
+            print("Failed to write JSON: \(error)")
         }
     }
     

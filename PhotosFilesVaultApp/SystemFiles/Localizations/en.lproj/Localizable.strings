@@ -40,3 +40,5 @@
 
 "import_photo_video" = "Import Photos & Videos";
 "add_new_folder" = "Add New Folder";
+"edit_name" = "Edit Name";
+"delete" = "Delete";

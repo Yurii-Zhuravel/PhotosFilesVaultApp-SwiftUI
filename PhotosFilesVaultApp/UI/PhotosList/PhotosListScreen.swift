@@ -29,7 +29,8 @@ struct PhotosListScreen: View {
                              timeStamp: Date(),
                              thubnailPath: nil,
                              filesCount: 0,
-                             foldersCount: 0)
+                             foldersCount: 0,
+                             isEditable: true)
 
     PhotosListScreen(
         services: services,

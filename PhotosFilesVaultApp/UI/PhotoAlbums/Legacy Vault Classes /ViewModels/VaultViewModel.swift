@@ -42,12 +42,15 @@ enum MediaActionAlert: Identifiable {
     
     /// Alert shown when media is deleted.
     case mediaDeleted
+    
+    case folderDeleted
 
     /// Unique identifier for each alert case.
     var id: String {
         switch self {
         case .mediaDownloaded: return "mediaDownloaded"
         case .mediaDeleted: return "mediaDeleted"
+        case .folderDeleted: return "folderDeleted"
         }
     }
 }
@@ -62,6 +65,8 @@ class VaultViewModel: ObservableObject {
     
     /// All subfolders within the root vault.
     @Published var subfolders: [FolderModel] = []
+    // Dummy flag to force SwiftUI refresh
+    @Published var refreshTrigger = false
     
     /// The currently selected subfolder.
     @Published var selectedSubfolder: FolderModel? = nil
@@ -192,7 +197,8 @@ class VaultViewModel: ObservableObject {
                 items: [],
                 timeStamp: Date(),
                 filesCount: 0,
-                foldersCount: 0
+                foldersCount: 0,
+                isEditable: true
             )
             
             try await fileManagerService.createFolder(folderModel, in: rootFolder)
@@ -212,6 +218,24 @@ class VaultViewModel: ObservableObject {
             await updateContent()
             DispatchQueue.main.async {
                 self.alertView = .mediaDeleted
+            }
+        }
+    }
+    
+    func deleteFolder(_ folder: FolderModel) {
+        Task {
+            await fileManagerService.deleteFolder(folder)
+            await MainActor.run {
+                subfolders.removeAll { inputFolder in
+                    return inputFolder.name == folder.name
+                }
+                // Toggle the flag to notify SwiftUI
+                refreshTrigger.toggle()
+            }
+            await updateContent()
+            
+            DispatchQueue.main.async {
+                self.alertView = .folderDeleted
             }
         }
     }
