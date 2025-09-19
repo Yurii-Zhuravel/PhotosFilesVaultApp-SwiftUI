@@ -21,10 +21,7 @@ struct PhotoAlbumListScreen: View {
         AlbumItem(id: "10", name: "Test 7"),
         AlbumItem(id: "11", name: "Test 9"),
     ]
-    private struct AlbumItem: Identifiable {
-        let id: String
-        let name: String
-    }
+
     // ----------
     private let gridColumns = [
         GridItem(.flexible()),
@@ -58,14 +55,16 @@ struct PhotoAlbumListScreen: View {
                 }.ignoresSafeArea(edges: .bottom)
                     .navigationTitle("photos")
                     .navigationBarTitleDisplayMode(.inline)
-    //                .navigationDestination(for: HomeTabsNavigationRoutes.self) { route in
-    //                    switch route {
-    //                    case .photoAlbumList:
-    //                        PhotoAlbumListScreen(services: services)
-    //                    case .settings:
-    //                        SettingsScreen(services: services)
-    //                    }
-    //                }
+                    .navigationDestination(for: PhotoAlbumNavigationRoutes.self) { route in
+                        switch route {
+                        case .photosList(let album):
+                            PhotosListScreen(
+                                services: services,
+                                album: album,
+                                navigationPath: $navigationPath
+                            )
+                        }
+                    }
                     .sheet(isPresented: $isShowingAddingSheet) {
                         AddPhotoTypeItemView(
                             isShowing: $isShowingAddingSheet,
@@ -109,9 +108,19 @@ struct PhotoAlbumListScreen: View {
                 LazyVGrid(columns: gridColumns,
                           spacing: itemsPadding) {
                     ForEach(items) { item in
-                        PhotoAlmubItemView(name: item.name)
-                            .frame(width: adjustedPositiveItemSize,
-                                   height: adjustedPositiveItemSize)
+                        PhotoAlmubItemView(
+                            id: item.id,
+                            name: item.name,
+                            onAlbumPressed: { albumId in
+                                if let album = self.items.first(where: { $0.id == albumId }) {
+                                    let newPath = PhotoAlbumNavigationRoutes.photosList(album)
+                                    self.navigationPath.append(newPath)
+                                } else {
+                                    print("PhotoAlbumListScreen: Can't find album with id: \(albumId)")
+                                }
+                            }
+                        ).frame(width: adjustedPositiveItemSize,
+                                height: adjustedPositiveItemSize)
                     }
                 }
                 

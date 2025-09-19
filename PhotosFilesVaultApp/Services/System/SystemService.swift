@@ -32,6 +32,19 @@ final class SystemService: SystemServiceProtocol {
             .foregroundColor: UIColor(Color.navbarTitle),
             .font: UIFont.systemFont(ofSize: 20, weight: .regular)
         ]
+        
+        // Fix text color of back button on iOS 16
+        let backItemAppearance = UIBarButtonItemAppearance()
+        backItemAppearance.normal.titleTextAttributes = [.foregroundColor : UIColor(Color.navbarTitle)]
+        backItemAppearance.disabled.titleTextAttributes = [.foregroundColor : UIColor(Color.navbarTitle)]
+        backItemAppearance.highlighted.titleTextAttributes = [.foregroundColor : UIColor(Color.navbarTitle)]
+        backItemAppearance.focused.titleTextAttributes = [.foregroundColor : UIColor(Color.navbarTitle)]
+        
+        // Fix indicator color of back button on iOS 16
+        let image = UIImage(systemName: "chevron.backward")?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        appearance.setBackIndicatorImage(image, transitionMaskImage: image)
+        appearance.backButtonAppearance = backItemAppearance
+        
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
         UINavigationBar.appearance().compactAppearance = appearance
