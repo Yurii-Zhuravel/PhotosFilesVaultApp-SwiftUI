@@ -1,15 +1,14 @@
 import SwiftUI
 
 struct PhotoAlmubItemView: View {
-    let id: String
-    let name: String
-    let onAlbumPressed: ((String) -> Void)
+    let folder: FolderModel
+    let onAlbumPressed: ((FolderModel) -> Void)
     
     var body: some View {
         let cornerRadius: CGFloat = 12
         
         Button {
-            onAlbumPressed(self.id)
+            onAlbumPressed(self.folder)
         } label: {
             RoundedRectangle(cornerRadius: cornerRadius)
                 .foregroundColor(.albumBack)
@@ -21,7 +20,7 @@ struct PhotoAlmubItemView: View {
                             ZStack {
                                 Color.secondaryAccent
                                 
-                                Text(self.name)
+                                Text(self.folder.name)
                                     .foregroundColor(Color.albumText)
                                     .multilineTextAlignment(.center)
                                     .lineLimit(2)
@@ -39,18 +38,18 @@ struct PhotoAlmubItemView: View {
     }
 }
 
-#Preview("Light mode") {
-    PhotoAlmubItemView(id: "1",
-                       name: "My favorite photos",
-                       onAlbumPressed: {_ in })
-        .frame(width: 150, height: 150)
-        .environment(\.colorScheme, .light)
-}
-
-#Preview("Dark mode long name") {
-    PhotoAlmubItemView(id: "1",
-                       name: "Long name name name name name name name name name name name name name name name name name name name name name name name name name",
-                       onAlbumPressed: {_ in })
-        .frame(width: 150, height: 150)
-        .environment(\.colorScheme, .dark)
-}
+//#Preview("Light mode") {
+//    PhotoAlmubItemView(id: "1",
+//                       name: "My favorite photos",
+//                       onAlbumPressed: {_ in })
+//        .frame(width: 150, height: 150)
+//        .environment(\.colorScheme, .light)
+//}
+//
+//#Preview("Dark mode long name") {
+//    PhotoAlmubItemView(id: "1",
+//                       name: "Long name name name name name name name name name name name name name name name name name name name name name name name name name",
+//                       onAlbumPressed: {_ in })
+//        .frame(width: 150, height: 150)
+//        .environment(\.colorScheme, .dark)
+//}

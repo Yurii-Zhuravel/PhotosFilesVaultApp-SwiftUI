@@ -7,22 +7,8 @@ struct PhotoAlbumListScreen: View {
     @State private var navigationPath = NavigationPath()
     @State private var isShowingAddingSheet = false
     
-    // TODO: ----
-    @State private var items: [AlbumItem] = [
-        AlbumItem(id: "1", name: "My favorite photos"),
-        AlbumItem(id: "2", name: "My car"),
-        AlbumItem(id: "3", name: "Family photos"),
-        AlbumItem(id: "4", name: "Test 1"),
-        AlbumItem(id: "5", name: "Test 2"),
-        AlbumItem(id: "6", name: "Test 3"),
-        AlbumItem(id: "7", name: "Test 4"),
-        AlbumItem(id: "8", name: "Test 5"),
-        AlbumItem(id: "9", name: "Test 6"),
-        AlbumItem(id: "10", name: "Test 7"),
-        AlbumItem(id: "11", name: "Test 9"),
-    ]
+    @StateObject private var viewModel = VaultViewModel()
 
-    // ----------
     private let gridColumns = [
         GridItem(.flexible()),
         GridItem(.flexible())
@@ -57,10 +43,10 @@ struct PhotoAlbumListScreen: View {
                     .navigationBarTitleDisplayMode(.inline)
                     .navigationDestination(for: PhotoAlbumNavigationRoutes.self) { route in
                         switch route {
-                        case .photosList(let album):
+                        case .photosList(let folder):
                             PhotosListScreen(
                                 services: services,
-                                album: album,
+                                folder: folder,
                                 navigationPath: $navigationPath
                             )
                         }
@@ -80,6 +66,8 @@ struct PhotoAlbumListScreen: View {
                         )
                             .presentationDetents([.height(250)])
                             .presentationDragIndicator(.visible)
+                    }.onAppear {
+                        viewModel.fetchSubfolders()
                     }
             }
         }
@@ -99,25 +87,37 @@ struct PhotoAlbumListScreen: View {
     private func buildContent(contentPadding: CGFloat,
                               adjustedPositiveItemSize: CGFloat,
                               itemsPadding: CGFloat) -> some View {
-        if self.items.isEmpty {
+        if self.viewModel.showsLoading {
+            VStack {
+                Spacer()
+                ProgressView()
+                    .progressViewStyle(.circular)
+                    .tint(.primaryAccent)
+                Spacer()
+            }
+            
+        } else if self.viewModel.subfolders.isEmpty {
             self.placeholderView
+            
         } else {
             ScrollView {
                 Spacer().frame(height: contentPadding)
                 
                 LazyVGrid(columns: gridColumns,
                           spacing: itemsPadding) {
-                    ForEach(items) { item in
+                    ForEach(viewModel.subfolders, id: \.self) { folder in
                         PhotoAlmubItemView(
-                            id: item.id,
-                            name: item.name,
+                            folder: folder,
                             onAlbumPressed: { albumId in
+                                // TODO: !!!
+                                /*
                                 if let album = self.items.first(where: { $0.id == albumId }) {
                                     let newPath = PhotoAlbumNavigationRoutes.photosList(album)
                                     self.navigationPath.append(newPath)
                                 } else {
                                     print("PhotoAlbumListScreen: Can't find album with id: \(albumId)")
                                 }
+                                 */
                             }
                         ).frame(width: adjustedPositiveItemSize,
                                 height: adjustedPositiveItemSize)
