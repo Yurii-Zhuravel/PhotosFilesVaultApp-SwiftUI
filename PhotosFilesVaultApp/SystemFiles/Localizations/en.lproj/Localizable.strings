@@ -37,3 +37,6 @@
 
 "incognito_setup_alert_title" = "Incognito Mode Setup Successfully";
 "incognito_setup_alert_message" = "Please enter the incognito passcode to navigate to the fake notes app!";
+
+"import_photo_video" = "Import Photos & Videos";
+"add_new_folder" = "Add New Folder";
