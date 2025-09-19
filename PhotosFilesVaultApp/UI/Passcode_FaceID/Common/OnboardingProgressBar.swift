@@ -10,11 +10,11 @@ struct OnboardingProgressBar: View {
         VStack(spacing: 5) {
             ZStack {
                 Capsule()
-                    .foregroundColor(.onboardingProgressBack)
+                    .foregroundColor(.secondaryAccent)
                 
                 HStack(spacing: 0) {
                     Capsule()
-                        .foregroundColor(.onboardingProgressTint)
+                        .foregroundColor(.primaryAccent)
                         .frame(width: stepWidth * CGFloat(currentStep))
                     Spacer(minLength: 0)
                 }

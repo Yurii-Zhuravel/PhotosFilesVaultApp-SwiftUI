@@ -99,8 +99,8 @@ struct NumberBoardView: View {
             RoundedRectangle(cornerRadius: 20)
                 .fill(
                     LinearGradient(
-                        colors: [.passcodeButtonBack.opacity(0.6),
-                                 .passcodeButtonBack],
+                        colors: [.primaryAccent.opacity(0.6),
+                                 .primaryAccent],
                         startPoint: .top,
                         endPoint: .bottom
                     )
@@ -121,7 +121,8 @@ struct NumberBoardView: View {
                 }
         }
         .opacity(row == 3 && column == 0 && viewModel.passScreenType != .normal ? 0 : 1)
-        .shadow(color: .gray.opacity(0.35), radius: 10, x: 0, y: 4)
+        .shadow(color: .secondaryAccent.opacity(0.7),
+                radius: 8)
     }
     
     private func pressButton(row: Int, column: Int, type: PassScreenType) {

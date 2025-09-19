@@ -80,12 +80,12 @@ struct TabBarView: View {
     private func tabBarButton(item: TabItem) -> some View {
         VStack(spacing: 5, content: {
             Image(systemName: item.sfImage)
-                .font(.system(size: 20, weight: .regular))
-                .foregroundStyle(selectedTab == item ? .tabBarIconSelected : .tabBarIcon)
+                .font(.system(size: 20, weight: .semibold))
+                .foregroundStyle(selectedTab == item ? .primaryAccent : .secondaryAccent)
             
             Text(item.title)
-                .font(.system(size: 12, weight: .medium))
-                .foregroundStyle(selectedTab == item ? .tabBarIconSelected : .tabBarIcon)
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundStyle(selectedTab == item ? .primaryAccent : .secondaryAccent)
         })
         .frame(minWidth: 50)
         .contentShape(Rectangle())

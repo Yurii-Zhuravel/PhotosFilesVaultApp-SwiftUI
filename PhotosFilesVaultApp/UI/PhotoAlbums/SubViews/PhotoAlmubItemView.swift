@@ -7,14 +7,14 @@ struct PhotoAlmubItemView: View {
         let cornerRadius: CGFloat = 12
         
         RoundedRectangle(cornerRadius: cornerRadius)
-            .foregroundColor(.albumBack)
+            .foregroundColor(.secondaryAccent.opacity(0.2))
             .overlay {
                 ZStack {
                     VStack(spacing: 0) {
                         Spacer(minLength: 0)
                         
                         ZStack {
-                            Color.albumNameBack
+                            Color.secondaryAccent
                             
                             Text(name)
                                 .foregroundColor(Color.albumText)

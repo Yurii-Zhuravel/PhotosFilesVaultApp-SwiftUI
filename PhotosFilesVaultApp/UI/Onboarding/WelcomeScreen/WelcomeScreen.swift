@@ -16,10 +16,13 @@ struct WelcomeScreen: View {
                     VStack(spacing: 0) {
                         Spacer(minLength: 0)
                         
-                        Image("app_icon")
+                        Image("lock_icon")
                             .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .clipped()
                             .frame(width: 120, height: 120)
-                            .shadow(radius: 10)
+                            .shadow(color: .secondaryAccent.opacity(0.7),
+                                    radius: 8)
                         
                         Spacer(minLength: 0)
                         
@@ -58,14 +61,14 @@ struct WelcomeScreen: View {
                             navigationPath.append(OnboardingNavigationRoute.passcodeSetup)
                         } label: {
                             Text("get_started")
-                                .foregroundColor(Color.accentText)
+                                .foregroundColor(Color.buttonText)
                                 .font(.system(size: 18, weight: .medium))
                                 .frame(maxWidth: .infinity)
                                 .padding(.horizontal, 16)
                                 .padding(.vertical, 10)
                         }.background(
                             RoundedRectangle(cornerRadius: 10)
-                                .foregroundColor(Color.accent)
+                                .foregroundColor(Color.primaryAccent)
                         )
 
                         Spacer().frame(height: 20)

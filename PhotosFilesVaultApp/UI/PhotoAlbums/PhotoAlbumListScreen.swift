@@ -7,56 +7,72 @@ struct PhotoAlbumListScreen: View {
     
     var body: some View {
         NavigationStack(path: $navigationPath) {
-            ZStack {
-                Color.contentBack
-                    .ignoresSafeArea()
-                
-                let contentPadding: CGFloat = 20
-                
-                VStack(spacing: 0) {
-                    Spacer().frame(height: contentPadding)
+            GeometryReader { geometry in
+                ZStack {
+                    Color.contentBack
+                        .ignoresSafeArea()
                     
-                    // TODO: Albums!
-                    HStack {
-                        PhotoAlmubItemView(name: "My favorite photos")
-                            .frame(width: 150, height: 150)
+                    let contentPadding: CGFloat = 20
+                    let itemsPadding: CGFloat = 20
+                    let itemSize: CGFloat = (geometry.size.width - contentPadding * 2.0 - itemsPadding) / 2.0
+                    
+                    VStack(spacing: 0) {
+                        Spacer().frame(height: contentPadding)
+                        
+                        // TODO: Albums!
+                        HStack {
+                            PhotoAlmubItemView(name: "My favorite photos")
+                                .frame(width: itemSize, height: itemSize)
+                            Spacer()
+                            
+                            PhotoAlmubItemView(name: "My car")
+                                .frame(width: itemSize, height: itemSize)
+                        }
+                        Spacer().frame(height: itemsPadding)
+                        
+                        HStack {
+                            PhotoAlmubItemView(name: "Family photos")
+                                .frame(width: itemSize, height: itemSize)
+                            
+                            Spacer()
+                        }
                         Spacer()
-                    }
-                    Spacer()
-                    
-                    Spacer().frame(height: contentPadding)
+                        
+                        Spacer().frame(height: contentPadding)
 
-                }.padding(.horizontal, contentPadding)
-                
-                VStack {
-                    Spacer()
+                    }.padding(.horizontal, contentPadding)
                     
-                    HStack {
+                    VStack {
                         Spacer()
-                        Button {
-                            // TODO:
-                        } label: {
-                            ZStack {
-                                Circle()
-                                    .foregroundColor(.accent)
-                                Image(systemName: "plus")
-                                    .font(.system(size: 34, weight: .regular))
-                                    .foregroundColor(.accentText)
-                            }.frame(width: 60, height: 60)
-                        }.shadow(radius: 10)
+                        
+                        HStack {
+                            Spacer()
+                            Button {
+                                // TODO:
+                            } label: {
+                                ZStack {
+                                    Circle()
+                                        .foregroundColor(.accent)
+                                    Image(systemName: "plus")
+                                        .font(.system(size: 34, weight: .regular))
+                                        .foregroundColor(.buttonText)
+                                }.frame(width: 60, height: 60)
+                            }.shadow(color: .secondaryAccent.opacity(0.7),
+                                     radius: 8)
 
-                    }.padding(20)
-                }.ignoresSafeArea()
-            }.navigationTitle("photos")
-                .navigationBarTitleDisplayMode(.inline)
-//                .navigationDestination(for: HomeTabsNavigationRoutes.self) { route in
-//                    switch route {
-//                    case .photoAlbumList:
-//                        PhotoAlbumListScreen(services: services)
-//                    case .settings:
-//                        SettingsScreen(services: services)
-//                    }
-//                }
+                        }.padding(20)
+                    }.ignoresSafeArea()
+                }.navigationTitle("photos")
+                    .navigationBarTitleDisplayMode(.inline)
+    //                .navigationDestination(for: HomeTabsNavigationRoutes.self) { route in
+    //                    switch route {
+    //                    case .photoAlbumList:
+    //                        PhotoAlbumListScreen(services: services)
+    //                    case .settings:
+    //                        SettingsScreen(services: services)
+    //                    }
+    //                }
+            }
         }
     }
 }

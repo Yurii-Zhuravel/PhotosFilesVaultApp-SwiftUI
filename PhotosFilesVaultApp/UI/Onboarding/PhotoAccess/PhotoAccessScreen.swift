@@ -42,13 +42,14 @@ struct PhotoAccessScreen: View {
                             .aspectRatio(contentMode: .fit)
                             .frame(height: popupMockupHeight)
                             .clipped()
-                            .shadow(radius: 10)
+                            .shadow(color: .secondaryAccent.opacity(0.7),
+                                    radius: 8)
                         
                         Spacer(minLength: 0)
                         
                         ProgressView()
                             .progressViewStyle(.circular)
-                            .tint(.accentColor)
+                            .tint(.primaryAccent)
                             .opacity(isLoadingAccessPopover ? 1 : 0)
                         
                         Spacer().frame(height: 10)
@@ -72,14 +73,14 @@ struct PhotoAccessScreen: View {
                             openAuthorizationPopup()
                         } label: {
                             Text("give_access")
-                                .foregroundColor(Color.accentText)
+                                .foregroundColor(Color.buttonText)
                                 .font(.system(size: 18, weight: .medium))
                                 .frame(maxWidth: .infinity)
                                 .padding(.horizontal, 16)
                                 .padding(.vertical, 10)
                         }.background(
                             RoundedRectangle(cornerRadius: 10)
-                                .foregroundColor(Color.accent)
+                                .foregroundColor(Color.primaryAccent)
                         )
                         Spacer().frame(height: 20)
                     }.padding(.horizontal, horizontalContextPadding)

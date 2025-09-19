@@ -22,13 +22,15 @@ final class SystemService: SystemServiceProtocol {
     func setupNavigationBarAppearance() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor(Color.navbarBack)
+        appearance.backgroundColor = UIColor(Color.primaryAccent)
         appearance.shadowColor = UIColor(Color.navbarShadow)
         appearance.titleTextAttributes = [
-            .foregroundColor: UIColor(Color.navbarTitle)
+            .foregroundColor: UIColor(Color.navbarTitle),
+            .font: UIFont.systemFont(ofSize: 20, weight: .regular)
         ]
         appearance.largeTitleTextAttributes = [
-            .foregroundColor: UIColor(Color.navbarTitle)
+            .foregroundColor: UIColor(Color.navbarTitle),
+            .font: UIFont.systemFont(ofSize: 20, weight: .regular)
         ]
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance

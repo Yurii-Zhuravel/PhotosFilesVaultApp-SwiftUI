@@ -46,7 +46,7 @@ struct EnterPasscodeScreen: View {
                         ForEach(0..<4) { index in
                             RoundedRectangle(cornerRadius: 4)
                                 .frame(width: 16, height: 16)
-                                .foregroundColor(viewModel.filledItem > index ? .filledPasscodeDigit : .emptyPasscodeDigit)
+                                .foregroundColor(viewModel.filledItem > index ? .primaryAccent : .secondaryAccent)
                         }
                     }
                     Spacer(minLength: 0)
