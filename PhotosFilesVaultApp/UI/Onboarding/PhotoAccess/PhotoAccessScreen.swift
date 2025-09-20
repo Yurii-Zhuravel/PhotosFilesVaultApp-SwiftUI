@@ -7,8 +7,8 @@ struct PhotoAccessScreen: View {
     @Binding var disablePasscodeOnStartOnce: Bool
     let services: ServicesProtocol
     
-    @State var isLoadingAccessPopover = false
-    @State var isShowingPhotoAccessRestrictedAlert = false
+    @State private var isLoadingAccessPopover = false
+    @State private var isShowingPhotoAccessRestrictedAlert = false
     
     var body: some View {
         NavigationStack(path: $navigationPath) {
@@ -117,7 +117,6 @@ struct PhotoAccessScreen: View {
                     } message: {
                         Text("photo_access_restricted_alert_message")
                     }
-
             }
         }
     }
@@ -126,15 +125,17 @@ struct PhotoAccessScreen: View {
         self.isLoadingAccessPopover = true
         
         PHPhotoLibrary.requestAuthorization { status in
-            switch status {
-            case .notDetermined:
-                break
-            case .restricted, .denied:
-                showRestrictedAccessPopup()
-            case .authorized, .limited:
-                navigateToHomeScreen()
-            @unknown default:
-                break
+            DispatchQueue.main.async {
+                switch status {
+                case .notDetermined:
+                    break
+                case .restricted, .denied:
+                    showRestrictedAccessPopup()
+                case .authorized, .limited:
+                    navigateToHomeScreen()
+                @unknown default:
+                    break
+                }
             }
         }
     }

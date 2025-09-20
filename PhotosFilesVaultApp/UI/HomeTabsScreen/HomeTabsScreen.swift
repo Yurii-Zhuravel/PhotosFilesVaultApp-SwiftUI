@@ -44,7 +44,7 @@ struct HomeTabsScreen: View {
             }
         }
         .onChange(of: scenePhase) { newPhase in
-            print("PhotosFilesVaultAppApp: scenePhase changed = \(newPhase)")
+            //print("PhotosFilesVaultAppApp: scenePhase changed = \(newPhase)")
             
             switch newPhase {
             case .background:
@@ -60,7 +60,9 @@ struct HomeTabsScreen: View {
                 self.showedPasscodeOnStartOnce = true
                 
                 if !self.disablePasscodeOnStartOnce {
-                    self.didEnteredBackgroundState = true
+                    DispatchQueue.main.async {
+                        self.didEnteredBackgroundState = true
+                    }
                 }
             }
         }

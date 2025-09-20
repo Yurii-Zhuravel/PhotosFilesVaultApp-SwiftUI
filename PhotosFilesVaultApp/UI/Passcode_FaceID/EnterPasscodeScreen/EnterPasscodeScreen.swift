@@ -24,7 +24,8 @@ struct EnterPasscodeScreen: View {
     var body: some View {
         GeometryReader { geometry in
             let horizontalContextPadding = 30.0
-            let numberBoardWidth = geometry.size.width - horizontalContextPadding * 2.0
+            let numberBoardWidthRaw = geometry.size.width - horizontalContextPadding * 2.0
+            let numberBoardWidth = (numberBoardWidthRaw > 0) ? numberBoardWidthRaw : 0
             let buttonSize = numberBoardWidth * 0.22
             let buttonSpacing = (numberBoardWidth - buttonSize * 3.0) / 4.0
             
