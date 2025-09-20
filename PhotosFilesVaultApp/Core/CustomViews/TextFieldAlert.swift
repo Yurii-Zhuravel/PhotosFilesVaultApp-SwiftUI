@@ -12,6 +12,10 @@ struct TextFieldAlertStyle: TextFieldStyle {
     }
 }
 
+enum FocusedField: Hashable {
+    case firstText
+}
+
 struct TextFieldAlert: View {
     @Binding var isPresented: Bool
     @Binding var firstText: String
@@ -21,6 +25,7 @@ struct TextFieldAlert: View {
     var onSave: () -> Void
     
     @StateObject private var keyboard = KeyboardResponder()
+    @FocusState private var focusedField: FocusedField?
 
     var body: some View {
         if isPresented {
@@ -51,6 +56,8 @@ struct TextFieldAlert: View {
                                 .textFieldStyle(TextFieldAlertStyle(backgroundColor: .textFieldBack))
                                 .shadow(color: .gray, radius: 1)
                                 .foregroundColor(.contentText)
+                                .focused($focusedField, equals: .firstText)
+                            
                         }.padding(15)
                         Spacer().frame(height: 10)
                         
@@ -90,6 +97,8 @@ struct TextFieldAlert: View {
                     .shadow(radius: 10)
                     .offset(y: -keyboard.currentHeight / 2) // move alert up
                     .animation(.easeOut(duration: 0.25), value: keyboard.currentHeight)
+                }.onAppear {
+                    focusedField = .firstText
                 }
             }
         }
