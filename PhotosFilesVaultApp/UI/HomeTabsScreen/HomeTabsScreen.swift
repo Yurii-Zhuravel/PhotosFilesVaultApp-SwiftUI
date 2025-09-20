@@ -1,4 +1,6 @@
 import SwiftUI
+import Combine
+import SwiftUI
 
 struct HomeTabsScreen: View {
     let disablePasscodeOnStartOnce: Bool
@@ -7,7 +9,9 @@ struct HomeTabsScreen: View {
     @State private var selectedTab: TabItem = .photos
     @State private var didEnteredBackgroundState = false
     @State private var showedPasscodeOnStartOnce = false
+    
     @Environment(\.scenePhase) var scenePhase
+    @StateObject private var keyboard = KeyboardResponder()
     
     var body: some View {
         ZStack {
@@ -26,20 +30,19 @@ struct HomeTabsScreen: View {
                     PhotoAlbumListScreen(
                         services: services,
                         bottomTabBarHeight: bottomTabBarHeight
-                    )
-                        .tag(TabItem.photos)
+                    ).tag(TabItem.photos)
                     
                     SettingsScreen(
                         services: services,
                         bottomTabBarHeight: bottomTabBarHeight
-                    )
-                        .tag(TabItem.settings)
+                    ).tag(TabItem.settings)
                 }.safeAreaInset(edge: .bottom) {
                     TabBarView(
                         selectedTab: $selectedTab,
-                        bottomTabBarHeight: bottomTabBarHeight
-                    )
-                        .background(.ultraThinMaterial) // optional styling
+                        bottomTabBarHeight: keyboard.currentHeight > 0 ? 0 : bottomTabBarHeight
+                    ).if(keyboard.currentHeight > 0) { tabView in
+                        tabView.clipped()
+                    }
                 }
             }
         }
@@ -55,7 +58,8 @@ struct HomeTabsScreen: View {
             default:
                 break
             }
-        }.onAppear {
+        }
+        .onAppear {
             if !self.showedPasscodeOnStartOnce {
                 self.showedPasscodeOnStartOnce = true
                 
