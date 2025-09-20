@@ -19,6 +19,8 @@ struct TextFieldAlert: View {
     var message: String
     let buttonOkTitle: String
     var onSave: () -> Void
+    
+    @StateObject private var keyboard = KeyboardResponder()
 
     var body: some View {
         if isPresented {
@@ -81,11 +83,15 @@ struct TextFieldAlert: View {
                                     .contentShape(Rectangle())
                             }
                         }.frame(height: 44)
+                        
+                        Spacer().frame(height: 30)
                     }
                     .background(Color(.alertBack))
                     .cornerRadius(12)
                     .frame(width: geometry.size.width * 0.8)
                     .shadow(radius: 10)
+                    .offset(y: -keyboard.currentHeight / 2) // move alert up
+                    .animation(.easeOut(duration: 0.25), value: keyboard.currentHeight)
                 }
             }
         }

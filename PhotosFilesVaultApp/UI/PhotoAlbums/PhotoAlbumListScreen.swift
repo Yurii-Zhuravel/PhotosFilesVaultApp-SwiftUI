@@ -71,7 +71,10 @@ struct PhotoAlbumListScreen: View {
                                 self.isShowingAddingSheet = false
                             }, onAddNewFolderCallback: {
                                 self.isShowingAddingSheet = false
-                                self.isShowingAddFolderAlert = true
+                                
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                    self.isShowingAddFolderAlert = true
+                                }
                             }
                         )
                             .presentationDetents([.height(250)])
@@ -154,7 +157,10 @@ struct PhotoAlbumListScreen: View {
                             if folder.isEditable {
                                 Button {
                                     self.editedFolderName = folder.name
-                                    self.isShowingEditFolderAlert = true
+                                    
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                        self.isShowingEditFolderAlert = true
+                                    }
                                 } label: {
                                     Label("edit_name", systemImage: "pencil")
                                 }
