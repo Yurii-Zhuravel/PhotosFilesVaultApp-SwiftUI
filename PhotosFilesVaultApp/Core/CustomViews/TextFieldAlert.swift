@@ -25,8 +25,6 @@ struct TextFieldAlert: View {
     var body: some View {
         if isPresented {
             GeometryReader { geometry in
-                let offset: CGFloat = keyboard.currentHeight > 0 ? 0 : 20
-                
                 ZStack {
                     Color.black.opacity(0.4)
                         .ignoresSafeArea()
@@ -90,7 +88,7 @@ struct TextFieldAlert: View {
                     .cornerRadius(12)
                     .frame(width: geometry.size.width * 0.8)
                     .shadow(radius: 10)
-                    .offset(y: -keyboard.currentHeight / 2 - offset) // move alert up
+                    .offset(y: -keyboard.currentHeight / 2) // move alert up
                     .animation(.easeOut(duration: 0.25), value: keyboard.currentHeight)
                 }
             }
