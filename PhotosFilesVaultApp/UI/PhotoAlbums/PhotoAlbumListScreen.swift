@@ -8,6 +8,7 @@ struct PhotoAlbumListScreen: View {
     @State private var isShowingAddingSheet = false
     @State private var isShowingDeleteConfirmationAlert = false
     @State private var isShowingEditFolderAlert = false
+    @State private var isShowingAddFolderAlert = false
     @State private var editedFolderName = ""
     @State private var folderToDelete: FolderModel?
     
@@ -45,7 +46,9 @@ struct PhotoAlbumListScreen: View {
                     if self.isShowingEditFolderAlert {
                         buildEditFolderAlert()
                     }
-                    
+                    if self.isShowingAddFolderAlert {
+                        buildAddFolderAlert()
+                    }
                 }.ignoresSafeArea(edges: .bottom)
                     .navigationTitle("photos")
                     .navigationBarTitleDisplayMode(.inline)
@@ -67,14 +70,8 @@ struct PhotoAlbumListScreen: View {
                                 print("!!! AAA onImportPhotoVideoCallback")
                                 self.isShowingAddingSheet = false
                             }, onAddNewFolderCallback: {
-                                let newFolderName = "Test Folder"
-                                guard !newFolderName.isEmpty
-                                else {
-                                    self.isShowingAddingSheet = false
-                                    return
-                                }
-                                viewModel.craeteNewFolder(name: newFolderName)
                                 self.isShowingAddingSheet = false
+                                self.isShowingAddFolderAlert = true
                             }
                         )
                             .presentationDetents([.height(250)])
@@ -219,7 +216,34 @@ struct PhotoAlbumListScreen: View {
                                      comment: ""),
             message:  NSLocalizedString("edit_folder_alert_message",
                                         comment: ""),
+            buttonOkTitle: NSLocalizedString("save",
+                                             comment: ""),
             onSave: {
+                self.editedFolderName = ""
+            }
+        )
+    }
+    
+    private func buildAddFolderAlert() -> some View {
+        TextFieldAlert(
+            isPresented: $isShowingAddFolderAlert,
+            firstText: $editedFolderName,
+            title: NSLocalizedString("add_folder_alert_title",
+                                     comment: ""),
+            message: NSLocalizedString("add_folder_alert_message",
+                                       comment: ""),
+            buttonOkTitle: NSLocalizedString("create",
+                                             comment: ""),
+            onSave: {
+                if !self.editedFolderName.isEmpty {
+                    
+                    guard !self.editedFolderName.isEmpty
+                    else {
+                        self.isShowingAddingSheet = false
+                        return
+                    }
+                    viewModel.createNewFolder(name: self.editedFolderName)
+                }
                 self.editedFolderName = ""
             }
         )

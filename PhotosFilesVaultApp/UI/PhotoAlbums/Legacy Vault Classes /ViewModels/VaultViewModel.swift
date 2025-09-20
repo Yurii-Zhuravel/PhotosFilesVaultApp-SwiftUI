@@ -189,7 +189,7 @@ class VaultViewModel: ObservableObject {
     }
     
     /// Creates a new folder in the vault root.
-    func craeteNewFolder(name: String) {
+    func createNewFolder(name: String) {
         Task {
             let folderModel = FolderModel(
                 path: rootFolder.name,

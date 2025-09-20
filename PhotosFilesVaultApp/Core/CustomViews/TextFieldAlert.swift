@@ -1,11 +1,23 @@
 import Foundation
 import SwiftUI
 
+struct TextFieldAlertStyle: TextFieldStyle {
+    var backgroundColor: Color = .gray
+
+    func _body(configuration: TextField<Self._Label>) -> some View {
+        configuration
+            .padding(10)
+            .background(backgroundColor)
+            .cornerRadius(8)
+    }
+}
+
 struct TextFieldAlert: View {
     @Binding var isPresented: Bool
     @Binding var firstText: String
     var title: String
     var message: String
+    let buttonOkTitle: String
     var onSave: () -> Void
 
     var body: some View {
@@ -34,7 +46,9 @@ struct TextFieldAlert: View {
                             
                             TextField("name", text: $firstText)
                                 .keyboardType(.default)
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .textFieldStyle(TextFieldAlertStyle(backgroundColor: .textFieldBack))
+                                .shadow(color: .gray, radius: 1)
+                                .foregroundColor(.contentText)
                         }.padding(15)
                         Spacer().frame(height: 10)
                         
@@ -47,21 +61,21 @@ struct TextFieldAlert: View {
                             Button(action: {
                                 isPresented = false
                             }) {
-                                Text("Cancel")
+                                Text("cancel")
                                     .bold()
                                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                                     .contentShape(Rectangle())
                             }
 
                             Rectangle()
-                                .frame(width: 1)
+                                .frame(width: 0.5)
                                 .foregroundColor(.gray)
 
                             Button(action: {
                                 isPresented = false
                                 onSave()
                             }) {
-                                Text("Save")
+                                Text(buttonOkTitle)
                                     .bold()
                                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                                     .contentShape(Rectangle())
@@ -85,6 +99,7 @@ struct TextFieldAlert: View {
                 firstText: .constant("My test folder name"),
                 title: NSLocalizedString("edit_folder_alert_title", comment: ""),
                 message: NSLocalizedString("edit_folder_alert_message", comment: ""),
+                buttonOkTitle: "Save",
                 onSave: {})
             .environment(\.colorScheme, .light)
             .clipped()
@@ -98,6 +113,7 @@ struct TextFieldAlert: View {
                 firstText: .constant("My test folder name"),
                 title: NSLocalizedString("edit_folder_alert_title", comment: ""),
                 message: NSLocalizedString("edit_folder_alert_message", comment: ""),
+                buttonOkTitle: "Save",
                 onSave: {})
             .environment(\.colorScheme, .dark)
             .clipped()
